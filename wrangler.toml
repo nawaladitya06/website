@@ -1,0 +1,9 @@
+name = "my-portfolio"
+compatibility_date = "2024-04-19"
+compatibility_flags = ["nodejs_als"]
+pages_build_output_dir = ".vercel/output/static"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "portfolio-db"
+database_id = "3493924d-1d62-4b7c-a479-0552e35314b1"

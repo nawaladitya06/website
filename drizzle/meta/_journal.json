@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1776573518608,
+      "tag": "0000_milky_bastion",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1776577930576,
+      "tag": "0001_nebulous_thunderbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1776578818047,
+      "tag": "0002_far_gorgon",
+      "breakpoints": true
+    }
+  ]
+}
