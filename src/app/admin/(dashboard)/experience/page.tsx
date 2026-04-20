@@ -8,7 +8,7 @@ export default async function AdminExperiencePage() {
   const items = await getExperiencesAction() || [];
 
   return (
-    <div className="p-8 max-w-5xl mx-auto z-10 relative">
+    <div className="p-8 max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-10">
         <h1 className="text-3xl font-bold text-white">Manage Experience</h1>
       </div>

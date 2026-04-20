@@ -12,12 +12,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <div className="min-h-screen w-full bg-[#050505]">
-      {/* Sidebar: rendered directly, it positions itself with CSS fixed */}
+      {/* Sidebar: self-positions as fixed, z-index handled via inline style */}
       <AdminSidebar />
 
-      {/* Main content: offset by sidebar width, scrolls naturally */}
-      <main className="ml-64 min-h-screen py-10 px-10">
-        <div className="w-full max-w-6xl mx-auto">
+      {/* Main content: offset by sidebar width, lower stacking context */}
+      <main className="relative z-0 ml-64 min-h-screen py-10 px-10 overflow-x-hidden">
+        <div className="relative z-0 w-full max-w-6xl mx-auto">
           {children}
         </div>
       </main>
