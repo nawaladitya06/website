@@ -11,15 +11,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="flex min-h-screen w-full relative z-20 bg-[#050505]">
-      {/* Permanent Fixed Sidebar space */}
-      <div className="w-64 fixed inset-y-0 left-0 z-50">
-        <AdminSidebar />
-      </div>
+    <div className="min-h-screen w-full bg-[#050505]">
+      {/* Sidebar: rendered directly, it positions itself with CSS fixed */}
+      <AdminSidebar />
 
-      {/* Main Workspace mathematically locked exclusively to the right side */}
-      <main className="flex-1 ml-[256px] min-w-0 flex justify-center py-10 px-10 relative z-10 min-h-screen border-l border-white/5">
-        <div className="w-full max-w-6xl">
+      {/* Main content: offset by sidebar width, scrolls naturally */}
+      <main className="ml-64 min-h-screen py-10 px-10">
+        <div className="w-full max-w-6xl mx-auto">
           {children}
         </div>
       </main>

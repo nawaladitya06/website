@@ -16,14 +16,17 @@ export default function AdminSidebar() {
   ];
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-50 h-screen w-64 border-r border-white/10 bg-[#0a0a0a] flex flex-col pt-8 pb-4">
+    <aside
+      style={{ position: 'fixed', top: 0, left: 0, bottom: 0, width: '256px', zIndex: 9999 }}
+      className="h-screen border-r border-white/10 bg-[#0a0a0a] flex flex-col pt-8 pb-4"
+    >
       <div className="px-6 mb-10 h-8 flex items-center">
-        <h2 className="text-2xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">
+        <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">
           Admin Panel
         </h2>
       </div>
 
-      <nav className="flex-1 flex flex-col gap-2 px-4 overflow-y-auto w-full">
+      <nav className="flex-1 flex flex-col gap-2 px-4 overflow-y-auto">
         {navLinks.map((link) => {
           const isActive = pathname === link.href;
           const Icon = link.icon;
@@ -31,14 +34,14 @@ export default function AdminSidebar() {
             <Link 
               key={link.name}
               href={link.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all z-50 relative pointer-events-auto ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                 isActive 
                   ? 'bg-white/10 text-white border border-white/20 shadow-md' 
                   : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'
               }`}
             >
               <Icon size={20} className={isActive ? 'text-purple-400' : ''} />
-              <span className="font-medium inline-block">{link.name}</span>
+              <span className="font-medium">{link.name}</span>
             </Link>
           );
         })}
@@ -52,7 +55,7 @@ export default function AdminSidebar() {
           className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors border border-transparent hover:border-red-500/20"
         >
           <LogOut size={20} />
-          <span className="font-medium inline-block">Logout</span>
+          <span className="font-medium">Logout</span>
         </button>
       </div>
     </aside>
