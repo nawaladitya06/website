@@ -11,16 +11,24 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="min-h-screen w-full bg-[#050505]">
-      {/* Sidebar: self-positions as fixed, z-index handled via inline style */}
+    <>
+      {/* Sidebar: rendered as a sibling OUTSIDE the main flow wrapper.
+          Uses inline style for fixed positioning to be immune to any 
+          parent stacking context created by the root layout. */}
       <AdminSidebar />
 
-      {/* Main content: offset by sidebar width, lower stacking context */}
-      <main className="relative z-0 ml-64 min-h-screen py-10 px-10 overflow-x-hidden">
-        <div className="relative z-0 w-full max-w-6xl mx-auto">
-          {children}
-        </div>
-      </main>
-    </div>
+      {/* Main content wrapper: pl-64 creates the gutter, isolate creates 
+          a new stacking context that caps all children below the sidebar */}
+      <div
+        style={{ paddingLeft: '256px', isolation: 'isolate', position: 'relative', zIndex: 0 }}
+        className="min-h-screen w-full"
+      >
+        <main className="w-full min-h-screen py-10 px-10">
+          <div className="w-full max-w-5xl mx-auto">
+            {children}
+          </div>
+        </main>
+      </div>
+    </>
   );
 }
