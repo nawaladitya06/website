@@ -1,8 +1,6 @@
 @import "tailwindcss";
 
-/* In Tailwind 4, we define our theme variables right here.
-  This fixes the "smashed" text and missing colors.
-*/
+/* In Tailwind 4, we define our theme variables right here. */
 @theme {
   --color-background: #050505;
   --color-foreground: #ffffff;
@@ -15,60 +13,72 @@
   }
 }
 
-/* Global Styles 
-  We use standard CSS here, referencing the theme variables above.
-*/
+/* Global Styles */
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden; /* Prevents horizontal scrolling */
-
-  /* CRITICAL FIX FOR MOBILE: Prevents 3D shapes from stretching the screen */
-  overflow-x: hidden; 
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
   width: 100%;
 }
-/* Hide scrollbar for Chrome/Safari/Opera */
+
+/* Custom Selection */
+::selection {
+  background-color: rgba(124, 58, 237, 0.3);
+  color: #fff;
+}
+
+/* Refined Premium Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
 }
 ::-webkit-scrollbar-track {
   background: #050505;
 }
 ::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 4px;
-}
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #050505;
-}
-::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 4px;
+  background: #1a1a1a;
+  border: 2px solid #050505;
+  border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #7c3aed;
+  border-color: #050505;
 }
 
 /* Terminal specific scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #333;
-  border-radius: 3px;
+  border-radius: 10px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #7c3aed;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Print Overrides */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .print\:hidden {
+    display: none !important;
+  }
 }

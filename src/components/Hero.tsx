@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image"; // Ensures the photo works
+import Link from "next/link";
 import { Github, Linkedin, Mail, Code2, Cpu, Download } from "lucide-react";
 
 // --- TERMINAL COMPONENT ---
@@ -103,33 +104,26 @@ const InteractiveTerminal = () => {
 };
 
 // --- HERO MAIN COMPONENT ---
-export default function Hero({ about = [] }: { about?: any[] }) {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+export default function Hero({ about = [], profile }: { about?: any[], profile?: any }) {
+  // Use dynamic profile data or fallbacks
+  const name = profile?.name || "Aditya";
+  const surname = profile?.surname || "Nawal";
+  const roleText = profile?.role || "Full Stack Dev | B.Sc IT '26";
+  const photoUrl = profile?.photo || "/icon.png";
+  const githubUrl = profile?.github || "https://github.com/nawaladitya06";
+  const linkedinUrl = profile?.linkedin || "https://www.linkedin.com/in/aditya-nawal";
+  const emailUrl = profile?.email ? `mailto:${profile.email}` : "mailto:nawaladitya06@gmail.com";
+  const resumeUrl = profile?.resume || "/Aditya Nawal Resume.pdf";
 
   // Fallback to static text if DB is empty
   const bioText = about && about.length > 0 
     ? about[about.length - 1].content 
     : "Crafting aesthetic digital experiences with modern tech. Specializing in the MERN stack, Next.js, and mobile app development.";
 
-  // Spotlight Effect Logic
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
   return (
     <section id="home" className="relative min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-20 pt-32 md:pt-20 overflow-hidden">
 
-      {/* Backgrounds */}
-      <div
-        className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(600px at ${mousePosition.x}px ${mousePosition.y}px, rgba(120, 50, 255, 0.15), transparent 80%)`
-        }}
-      />
+      {/* Grid Background */}
       <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
 
       {/* CONTENT CONTAINER */}
@@ -146,8 +140,8 @@ export default function Hero({ about = [] }: { about?: any[] }) {
               className="relative w-28 h-28 rounded-full border-4 border-white/10 shadow-2xl overflow-hidden shrink-0"
             >
               <Image
-                src="/icon.png" // Ensure icon.png is in your 'public' folder
-                alt="Aditya Nawal"
+                src={photoUrl}
+                alt={`${name} ${surname}`}
                 fill
                 className="object-cover"
                 priority
@@ -170,7 +164,7 @@ export default function Hero({ about = [] }: { about?: any[] }) {
           {/* NAME & INTRO */}
           <div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-2">
-              Aditya <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">Nawal</span>
+              {name} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">{surname}</span>
             </h1>
             <motion.p
               initial={{ opacity: 0 }}
@@ -178,9 +172,7 @@ export default function Hero({ about = [] }: { about?: any[] }) {
               transition={{ delay: 0.5 }}
               className="text-lg md:text-2xl text-gray-400 font-light flex flex-wrap justify-center md:justify-start gap-3"
             >
-              <span className="flex items-center gap-2"><Code2 size={20} className="text-purple-500" /> Full Stack Dev</span>
-              <span className="hidden md:inline text-gray-600">|</span>
-              <span className="flex items-center gap-2"><Cpu size={20} className="text-cyan-500" /> B.Sc IT '26</span>
+              <span className="flex items-center gap-2">{roleText}</span>
             </motion.p>
           </div>
 
@@ -189,28 +181,27 @@ export default function Hero({ about = [] }: { about?: any[] }) {
           </p>
 
           <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-            <a href="https://github.com/nawaladitya06" target="_blank" className="p-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-all">
+            <a href={githubUrl} target="_blank" className="p-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-all">
               <Github className="text-gray-400" size={20} />
             </a>
-            <a href="https://www.linkedin.com/in/aditya-nawal" target="_blank" className="p-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-all">
+            <a href={linkedinUrl} target="_blank" className="p-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-all">
               <Linkedin className="text-gray-400" size={20} />
             </a>
-            {/* NEW: Resume Download Button */}
             <a
-              href="/Aditya Nawal Resume.pdf"
-              download="Aditya_Nawal_Resume.pdf"
+              href={resumeUrl}
+              download
               className="px-6 py-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 text-white font-medium transition-all flex items-center gap-2 text-sm backdrop-blur-md"
             >
               <Download size={18} className="text-purple-400" />
               Resume
             </a>
-            <a
-              href="mailto:nawaladitya06@gmail.com"
+            <Link
+              href="/contact"
               className="relative z-20 px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-purple-200 transition-all flex items-center gap-2 text-sm shadow-xl shadow-purple-500/10 active:scale-95"
             >
               <Mail size={18} />
               Let's Talk
-            </a>
+            </Link>
           </div>
         </div>
 

@@ -1,5 +1,6 @@
-import { getEducationsAction, createEducationAction, deleteEducationAction } from "@/app/actions";
-import { Trash2 } from "lucide-react";
+import { getEducationsAction, createEducationAction } from "@/app/actions";
+import EducationListClient from "@/components/Admin/EducationListClient";
+import { GraduationCap, Plus } from "lucide-react";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -8,51 +9,58 @@ export default async function AdminEducationPage() {
   const items = await getEducationsAction() || [];
 
   return (
-    <div className="p-8 max-w-5xl mx-auto">
-      <div className="flex justify-between items-center mb-10">
-        <h1 className="text-3xl font-bold text-white">Manage Education</h1>
+    <div className="p-8 max-w-6xl mx-auto space-y-12 pb-24">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div>
+          <h1 className="text-4xl font-black text-white tracking-tight flex items-center gap-3">
+            <GraduationCap className="text-purple-500" size={32} />
+            Manage Education
+          </h1>
+          <p className="text-gray-500 font-mono text-[10px] uppercase tracking-[0.3em] mt-2">Academic History & Certifications</p>
+        </div>
       </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl mb-10">
-        <h2 className="text-xl font-semibold text-white mb-6">Add New Education</h2>
-        <form action={createEducationAction} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input required name="institution" placeholder="Institution Name" className="w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white focus:outline-none focus:border-white focus:bg-white/5 transition-all" />
-          <input required name="degree" placeholder="Degree / Course" className="w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white focus:outline-none focus:border-white focus:bg-white/5 transition-all" />
-          <input required name="year" placeholder="Year" className="w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white focus:outline-none focus:border-white focus:bg-white/5 transition-all" />
-          <input required name="score" placeholder="Score/GPA" className="w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white focus:outline-none focus:border-white focus:bg-white/5 transition-all" />
-          <input required name="link" placeholder="Institution Link (https://...)" className="md:col-span-2 w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white focus:outline-none focus:border-white focus:bg-white/5 transition-all" />
-          <button type="submit" className="md:col-span-2 px-6 py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)]">Create Education</button>
-        </form>
-      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+        {/* Creation Form */}
+        <div className="lg:col-span-1 sticky top-8">
+            <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-3xl shadow-2xl">
+                <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                    <Plus size={20} className="text-purple-400" />
+                    Add Education
+                </h2>
+                <form action={createEducationAction} className="space-y-3">
+                    <div className="space-y-1">
+                        <label className="text-[10px] uppercase font-black text-gray-500 tracking-widest ml-1">Institution</label>
+                        <input required name="institution" placeholder="e.g. Stanford University" className="w-full px-5 py-1 bg-black/40 border border-white/10 rounded-4xl text-white focus:outline-none focus:border-purple-500 focus:bg-white/5 transition-all text-sm" />
+                    </div>
+                    <div className="space-y-1">
+                        <label className="text-[10px] uppercase font-black text-gray-500 tracking-widest ml-1">Degree / Course</label>
+                        <input required name="degree" placeholder="e.g. B.Tech Computer Science" className="w-full px-5 py-1 bg-black/40 border border-white/10 rounded-4xl text-white focus:outline-none focus:border-purple-500 focus:bg-white/5 transition-all text-sm" />
+                    </div>
+                    <div className="space-y-1">
+                        <label className="text-[10px] uppercase font-black text-gray-500 tracking-widest ml-1">Timeline</label>
+                        <input required name="year" placeholder="e.g. 2018 - 2022" className="w-full px-5 py-1 bg-black/40 border border-white/10 rounded-4xl text-white focus:outline-none focus:border-purple-500 focus:bg-white/5 transition-all text-sm" />
+                    </div>
+                    <div className="space-y-1">
+                        <label className="text-[10px] uppercase font-black text-gray-500 tracking-widest ml-1">Score / Result</label>
+                        <input required name="score" placeholder="e.g. 9.8 CGPA" className="w-full px-5 py-1 bg-black/40 border border-white/10 rounded-4xl text-white focus:outline-none focus:border-purple-500 focus:bg-white/5 transition-all text-sm" />
+                    </div>
+                    <div className="space-y-1">
+                        <label className="text-[10px] uppercase font-black text-gray-500 tracking-widest ml-1">Institution Link</label>
+                        <input required name="link" placeholder="https://..." className="w-full px-5 py-1 bg-black/40 border border-white/10 rounded-4xl text-white focus:outline-none focus:border-purple-500 focus:bg-white/5 transition-all text-sm" />
+                    </div>
+                    <button type="submit" className="w-full py-3 bg-white text-black font-extrabold rounded-4xl hover:bg-purple-100 transition shadow-lg shadow-white/5 active:scale-95 mt-4">
+                        Add Education
+                    </button>
+                </form>
+            </div>
+        </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl overflow-x-auto">
-        <table className="w-full text-left text-sm text-gray-300">
-          <thead className="border-b border-white/10 text-gray-400">
-            <tr>
-              <th className="py-3 px-4">Institution</th>
-              <th className="py-3 px-4">Degree</th>
-              <th className="py-3 px-4">Score</th>
-              <th className="py-3 px-4 text-right">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map(item => (
-              <tr key={item.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                <td className="py-3 px-4 font-medium text-white">{item.institution}</td>
-                <td className="py-3 px-4">{item.degree}</td>
-                <td className="py-3 px-4">{item.score}</td>
-                <td className="py-3 px-4 text-right">
-                  <form action={deleteEducationAction.bind(null, item.id!)}>
-                    <button type="submit" className="p-2 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition"><Trash2 size={16} /></button>
-                  </form>
-                </td>
-              </tr>
-            ))}
-            {items.length === 0 && (
-              <tr><td colSpan={4} className="py-8 text-center text-gray-500">No education records found.</td></tr>
-            )}
-          </tbody>
-        </table>
+        {/* Dynamic List */}
+        <div className="lg:col-span-2">
+            <EducationListClient items={items} />
+        </div>
       </div>
     </div>
   );

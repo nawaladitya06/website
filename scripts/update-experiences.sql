@@ -1,0 +1,2 @@
+ALTER TABLE experiences ADD COLUMN category TEXT NOT NULL DEFAULT 'professional';
+ALTER TABLE experiences ADD COLUMN img TEXT NOT NULL DEFAULT '';

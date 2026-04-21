@@ -1,0 +1,15 @@
+ALTER TABLE projects ADD COLUMN challenge TEXT;
+ALTER TABLE projects ADD COLUMN solution TEXT;
+ALTER TABLE projects ADD COLUMN impact TEXT;
+
+ALTER TABLE skills ADD COLUMN level INTEGER NOT NULL DEFAULT 80;
+
+CREATE TABLE posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    slug TEXT NOT NULL UNIQUE,
+    excerpt TEXT NOT NULL,
+    content TEXT NOT NULL,
+    cover TEXT NOT NULL,
+    date TEXT NOT NULL
+);

@@ -1,15 +1,16 @@
-import { getProjectsAction, getExperiencesAction, getEducationsAction, getSkillsAction, getAboutAction } from "@/app/actions";
+import { getProjectsAction, getExperiencesAction, getEducationsAction, getSkillsAction, getAboutAction, getMessagesAction } from "@/app/actions";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
-  const [projectsRes, experiencesRes, educationsRes, skillsRes, aboutRes] = await Promise.all([
+  const [projectsRes, experiencesRes, educationsRes, skillsRes, aboutRes, messagesRes] = await Promise.all([
     getProjectsAction(),
     getExperiencesAction(),
     getEducationsAction(),
     getSkillsAction(),
-    getAboutAction()
+    getAboutAction(),
+    getMessagesAction()
   ]);
 
   const projects = projectsRes || [];
@@ -17,50 +18,49 @@ export default async function AdminDashboard() {
   const educations = educationsRes || [];
   const skills = skillsRes || [];
   const about = aboutRes || [];
+  const messages = messagesRes || [];
 
   return (
     <div className="p-8 max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold text-white mb-8">Admin Dashboard</h1>
+      <h1 className="text-4xl font-bold text-white mb-8 tracking-tight">Admin Overview</h1>
       
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <div className="p-6 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md flex flex-col">
-          <h2 className="text-2xl font-bold text-white mb-4">Projects ({projects.length})</h2>
-          <ul className="flex flex-col gap-2 flex-1 mb-6">
-            {projects.map(p => <li key={p.id} className="text-gray-300">{p.title}</li>)}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Messages Card - High Priority */}
+        <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-2xl flex flex-col shadow-2xl shadow-purple-500/5 group relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 -rotate-45 translate-x-16 -translate-y-16 group-hover:scale-110 transition-transform duration-700" />
+          <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+             Inbox
+             {messages.length > 0 && <span className="text-xs px-2 py-0.5 bg-purple-500 text-white rounded-full">{messages.length}</span>}
+          </h2>
+          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono">Contact Form Requests</p>
+          <ul className="flex flex-col gap-3 flex-1 mb-8">
+            {messages.slice(0,3).map(m => (
+                <li key={m.id} className="text-sm border-l-2 border-purple-500/30 pl-4 py-1">
+                    <p className="text-white font-medium line-clamp-1">{m.name}</p>
+                    <p className="text-gray-500 text-[10px] uppercase font-bold">{new Date(m.createdAt).toLocaleDateString()}</p>
+                </li>
+            ))}
+            {messages.length === 0 && <li className="text-gray-500 italic text-sm">No messages yet</li>}
           </ul>
-          <a href="/admin/projects" className="mt-auto px-4 py-2 bg-white text-black font-semibold text-center rounded-xl hover:bg-gray-200 transition">Manage Projects &rarr;</a>
+          <a href="/admin/messages" className="w-full py-4 bg-white text-black font-bold text-center rounded-2xl hover:bg-purple-100 transition shadow-lg shadow-white/5 active:scale-95">Open Inbox &rarr;</a>
         </div>
 
-        <div className="p-6 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md flex flex-col">
-          <h2 className="text-2xl font-bold text-white mb-4">Experience ({experiences.length})</h2>
-          <ul className="flex flex-col gap-2 flex-1 mb-6">
-            {experiences.slice(0,3).map(e => <li key={e.id} className="text-gray-300">{e.role}</li>)}
+        <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-2xl flex flex-col group relative overflow-hidden">
+          <h2 className="text-2xl font-bold text-white mb-2">Projects</h2>
+          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono">Works Summary ({projects.length})</p>
+          <ul className="flex flex-col gap-3 flex-1 mb-8">
+            {projects.slice(0,3).map(p => <li key={p.id} className="text-gray-300 text-sm flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-cyan-500" /> {p.title}</li>)}
           </ul>
-          <a href="/admin/experience" className="mt-auto px-4 py-2 bg-white text-black font-semibold text-center rounded-xl hover:bg-gray-200 transition">Manage Experience &rarr;</a>
+          <a href="/admin/projects" className="w-full py-4 bg-white/5 border border-white/10 text-white font-bold text-center rounded-2xl hover:bg-white/10 transition active:scale-95">Manage Projects</a>
         </div>
 
-        <div className="p-6 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md flex flex-col">
-          <h2 className="text-2xl font-bold text-white mb-4">Education ({educations.length})</h2>
-          <ul className="flex flex-col gap-2 flex-1 mb-6">
-            {educations.slice(0,3).map(e => <li key={e.id} className="text-gray-300">{e.degree}</li>)}
+        <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-2xl flex flex-col group relative overflow-hidden">
+          <h2 className="text-2xl font-bold text-white mb-2">Experience</h2>
+          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono">Professional History ({experiences.length})</p>
+          <ul className="flex flex-col gap-3 flex-1 mb-8">
+            {experiences.slice(0,3).map(e => <li key={e.id} className="text-gray-300 text-sm flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-yellow-500" /> {e.role}</li>)}
           </ul>
-          <a href="/admin/education" className="mt-auto px-4 py-2 bg-white text-black font-semibold text-center rounded-xl hover:bg-gray-200 transition">Manage Education &rarr;</a>
-        </div>
-
-        <div className="p-6 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md flex flex-col">
-          <h2 className="text-2xl font-bold text-white mb-4">About Me</h2>
-          <ul className="flex flex-col gap-2 flex-1 mb-6">
-            <li className="text-gray-300 italic">{about.length > 0 ? (about[0].content.substring(0, 50) + "...") : "No content set"}</li>
-          </ul>
-          <a href="/admin/about" className="mt-auto px-4 py-2 bg-white text-black font-semibold text-center rounded-xl hover:bg-gray-200 transition">Manage About &rarr;</a>
-        </div>
-
-        <div className="p-6 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md flex flex-col">
-          <h2 className="text-2xl font-bold text-white mb-4">Skills ({skills.length})</h2>
-          <ul className="flex flex-col gap-2 flex-1 mb-6">
-            {skills.slice(0,5).map(s => <li key={s.id} className="text-gray-300">{s.name}</li>)}
-          </ul>
-          <a href="/admin/skills" className="mt-auto px-4 py-2 bg-white text-black font-semibold text-center rounded-xl hover:bg-gray-200 transition">Manage Skills &rarr;</a>
+          <a href="/admin/experience" className="w-full py-4 bg-white/5 border border-white/10 text-white font-bold text-center rounded-2xl hover:bg-white/10 transition active:scale-95">Manage Experience</a>
         </div>
       </div>
     </div>

@@ -1,17 +1,20 @@
 "use client";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, FolderKanban, Briefcase, GraduationCap, Cpu, UserCircle, LogOut } from 'lucide-react';
+import { LayoutDashboard, FolderKanban, Briefcase, GraduationCap, Cpu, UserCircle, LogOut, NotebookText, MessageSquare, Award } from 'lucide-react';
 
 export default function AdminSidebar() {
   const pathname = usePathname();
 
   const navLinks = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-    { name: 'About', href: '/admin/about', icon: UserCircle },
+    { name: 'Messages', href: '/admin/messages', icon: MessageSquare },
+    { name: 'Profile', href: '/admin/profile', icon: UserCircle },
+    { name: 'Blog', href: '/admin/blog', icon: NotebookText },
     { name: 'Projects', href: '/admin/projects', icon: FolderKanban },
     { name: 'Experience', href: '/admin/experience', icon: Briefcase },
     { name: 'Education', href: '/admin/education', icon: GraduationCap },
+    { name: 'Certifications', href: '/admin/certifications', icon: Award },
     { name: 'Skills', href: '/admin/skills', icon: Cpu },
   ];
 

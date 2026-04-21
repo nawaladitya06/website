@@ -1,15 +1,35 @@
 "use client";
-
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { Github, Linkedin, Mail, ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const footerRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!footerRef.current) return;
+    const rect = footerRef.current.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
 
   return (
-    <footer className="relative border-t border-white/10 bg-[#050505] pt-16 pb-8 overflow-hidden">
-      {/* Background Gradient for aesthetic depth */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-purple-500/5 blur-[120px] rounded-full pointer-events-none" />
+    <footer 
+        ref={footerRef}
+        onMouseMove={handleMouseMove}
+        className="relative group border-t border-white/10 bg-white/[0.02] backdrop-blur-3xl pt-16 pb-8 overflow-hidden"
+    >
+      {/* Footer Spotlight */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: `radial-gradient(400px at ${mousePosition.x}px ${mousePosition.y}px, rgba(120, 50, 255, 0.08), transparent 80%)`
+        }}
+      />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
@@ -55,7 +75,7 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-6 flex items-center gap-2">
               Connect
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
             </h3>
             <ul className="space-y-4">
               <li>
@@ -71,7 +91,7 @@ export default function Footer() {
                 <a 
                   href="https://www.linkedin.com/in/aditya-nawal" 
                   target="_blank"
-                  className="text-gray-400 hover:text-blue-400 transition-colors text-sm flex items-center gap-2"
+                  className="text-gray-400 hover:text-purple-400 transition-colors text-sm flex items-center gap-2"
                 >
                   <Linkedin size={16} />
                   LinkedIn Profile
@@ -101,7 +121,7 @@ export default function Footer() {
           
           <div className="flex items-center gap-6">
              <p className="text-xs font-mono text-gray-600 flex items-center gap-2">
-               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+               <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
                System Status: Online
              </p>
              <p className="text-xs font-mono text-gray-600">
