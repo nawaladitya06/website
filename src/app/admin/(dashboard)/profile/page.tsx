@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getAboutAction, createAboutAction, getProfileAction, updateProfileAction } from "@/app/actions";
 import AboutListClient from "@/components/Admin/AboutListClient";
 import { User, Camera, Mail, Github, Linkedin, FileText, Briefcase, Plus, Sparkles, MapPin } from "lucide-react";

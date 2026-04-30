@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getProfileAction, getEducationsAction, getExperiencesAction, getSkillsAction, getAboutAction, getCertificationsAction } from "@/app/actions";
 import { Mail, Github, Linkedin, Globe, Printer, Download, ArrowLeft } from "lucide-react";
 import Link from "next/link";

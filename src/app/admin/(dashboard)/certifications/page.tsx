@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getCertificationsAction, createCertificationAction } from "@/app/actions";
 import CertificationsListClient from "@/components/Admin/CertificationsListClient";
 import { Award, Plus, ShieldCheck } from "lucide-react";

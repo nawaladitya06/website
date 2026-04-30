@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getProjectByIdAction } from "@/app/actions";
 import { notFound } from "next/navigation";
 import ProjectDetailClient from "@/components/ProjectDetailClient";

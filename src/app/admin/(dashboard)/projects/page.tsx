@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getProjectsAction, createProjectAction, deleteProjectAction } from "@/app/actions";
 import { Trash2, Edit3, Plus, Layout } from "lucide-react";
 import Link from "next/link";

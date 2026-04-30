@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getSkillsAction, createSkillAction } from "@/app/actions";
 import SkillsListClient from "@/components/Admin/SkillsListClient";
 import { Cpu, Plus } from "lucide-react";

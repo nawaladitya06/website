@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getProjectByIdAction, updateProjectAction } from "@/app/actions";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, Save, Layout, Calendar, Github, Link as LinkIcon, Info } from "lucide-react";

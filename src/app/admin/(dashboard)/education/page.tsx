@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getEducationsAction, createEducationAction } from "@/app/actions";
 import EducationListClient from "@/components/Admin/EducationListClient";
 import { GraduationCap, Plus } from "lucide-react";

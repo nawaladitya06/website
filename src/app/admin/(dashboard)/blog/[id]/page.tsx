@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getPostByIdAction, updatePostAction } from "@/app/actions";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, Save, FileText, Globe, Image as ImageIcon, Sparkles, Info } from "lucide-react";

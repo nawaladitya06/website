@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import Skills from "@/components/Skills";
 import SkillsRadar from "@/components/SkillsRadar";
 import { getSkillsAction } from "@/app/actions";

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import Leadership from "@/components/Leadership";
 import { getExperiencesAction } from "@/app/actions";
 

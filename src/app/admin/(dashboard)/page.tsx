@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getProjectsAction, getExperiencesAction, getEducationsAction, getSkillsAction, getAboutAction, getMessagesAction } from "@/app/actions";
 
 

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getExperiencesAction, createExperienceAction } from "@/app/actions";
 import ExperienceListClient from "@/components/Admin/ExperienceListClient";
 import { Briefcase, Plus } from "lucide-react";

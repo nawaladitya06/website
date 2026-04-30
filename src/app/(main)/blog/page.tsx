@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getPostsAction } from "@/app/actions";
 import Link from "next/link";
 import Image from "next/image";

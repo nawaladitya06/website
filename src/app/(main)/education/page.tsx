@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import EducationLog from "@/components/EducationLog";
 import { getEducationsAction } from "@/app/actions";
 

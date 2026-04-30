@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getMessagesAction, deleteMessageAction } from "@/app/actions";
 import { MessageSquare, Trash2, Reply, Calendar, User, Mail } from "lucide-react";
 import Link from "next/link";
