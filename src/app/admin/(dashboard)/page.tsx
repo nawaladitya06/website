@@ -1,7 +1,5 @@
 import { getProjectsAction, getExperiencesAction, getEducationsAction, getSkillsAction, getAboutAction, getMessagesAction } from "@/app/actions";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
   const [projectsRes, experiencesRes, educationsRes, skillsRes, aboutRes, messagesRes] = await Promise.all([

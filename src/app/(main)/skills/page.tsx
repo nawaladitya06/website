@@ -3,8 +3,6 @@ import SkillsRadar from "@/components/SkillsRadar";
 import { getSkillsAction } from "@/app/actions";
 import { Cpu } from "lucide-react";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
 
 export default async function SkillsPage() {
   const skills = await getSkillsAction() || [];

@@ -1,8 +1,6 @@
 import Leadership from "@/components/Leadership";
 import { getExperiencesAction } from "@/app/actions";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
 
 export default async function ExperiencePage() {
   const experiences = await getExperiencesAction() || [];

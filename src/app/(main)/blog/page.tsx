@@ -4,8 +4,6 @@ import Image from "next/image";
 import { Calendar, ArrowRight, NotebookText } from "lucide-react";
 import { motion } from "framer-motion";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
 
 export default async function BlogPage() {
   const posts = await getPostsAction();

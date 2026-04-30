@@ -2,8 +2,6 @@ import { getMessagesAction, deleteMessageAction } from "@/app/actions";
 import { MessageSquare, Trash2, Reply, Calendar, User, Mail } from "lucide-react";
 import Link from "next/link";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
 
 export default async function AdminMessagesPage() {
   const messages = await getMessagesAction();

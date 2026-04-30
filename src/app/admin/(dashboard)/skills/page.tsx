@@ -2,8 +2,6 @@ import { getSkillsAction, createSkillAction } from "@/app/actions";
 import SkillsListClient from "@/components/Admin/SkillsListClient";
 import { Cpu, Plus } from "lucide-react";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
 
 export default async function AdminSkillsPage() {
   const items = await getSkillsAction() || [];

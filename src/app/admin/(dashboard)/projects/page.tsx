@@ -2,8 +2,6 @@ import { getProjectsAction, createProjectAction, deleteProjectAction } from "@/a
 import { Trash2, Edit3, Plus, Layout } from "lucide-react";
 import Link from "next/link";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
 
 export default async function AdminProjectsPage() {
   const items = await getProjectsAction() || [];

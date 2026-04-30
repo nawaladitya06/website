@@ -2,8 +2,6 @@ import { getAboutAction, createAboutAction, getProfileAction, updateProfileActio
 import AboutListClient from "@/components/Admin/AboutListClient";
 import { User, Camera, Mail, Github, Linkedin, FileText, Briefcase, Plus, Sparkles, MapPin } from "lucide-react";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
 
 export default async function AdminProfilePage() {
     const items = await getAboutAction() || [];

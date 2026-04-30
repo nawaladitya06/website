@@ -2,8 +2,6 @@ import { getPostsAction, createPostAction, deletePostAction } from "@/app/action
 import { Trash2, Plus, Edit3, FileText, Calendar, Globe } from "lucide-react";
 import Link from "next/link";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
 
 export default async function AdminBlogPage() {
   const posts = await getPostsAction() || [];

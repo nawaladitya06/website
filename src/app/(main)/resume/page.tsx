@@ -3,8 +3,6 @@ import { Mail, Github, Linkedin, Globe, Printer, Download, ArrowLeft } from "luc
 import Link from "next/link";
 import Image from "next/image";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
 
 export default async function ResumePage() {
   const [profile, educations, experiences, skills, about, certs] = await Promise.all([

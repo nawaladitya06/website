@@ -2,8 +2,6 @@ import { getEducationsAction, createEducationAction } from "@/app/actions";
 import EducationListClient from "@/components/Admin/EducationListClient";
 import { GraduationCap, Plus } from "lucide-react";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
 
 export default async function AdminEducationPage() {
   const items = await getEducationsAction() || [];

@@ -2,8 +2,6 @@ import { getCertificationsAction, createCertificationAction } from "@/app/action
 import CertificationsListClient from "@/components/Admin/CertificationsListClient";
 import { Award, Plus, ShieldCheck } from "lucide-react";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
 
 export default async function AdminCertificationsPage() {
   const items = await getCertificationsAction() || [];

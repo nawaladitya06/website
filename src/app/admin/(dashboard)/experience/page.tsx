@@ -2,8 +2,6 @@ import { getExperiencesAction, createExperienceAction } from "@/app/actions";
 import ExperienceListClient from "@/components/Admin/ExperienceListClient";
 import { Briefcase, Plus } from "lucide-react";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
 
 export default async function AdminExperiencePage() {
   const items = await getExperiencesAction() || [];
