@@ -11,7 +11,7 @@ export type Experience = {
   desc: string;
   category: "leadership" | "professional";
   img: string;
-  doc?: string;
+  doc?: string | null;
 };
 
 export default function ExperienceSection({ experiences = [] }: { experiences?: Experience[] }) {

@@ -182,7 +182,7 @@ export default function CertificationsClient({ initialCerts }: { initialCerts: a
                     >
                         <X size={24} />
                     </button>
-                    <img src={selectedImg} alt="Certificate" className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl border border-white/10" />
+                    {selectedImg ? <img src={selectedImg} alt="Certificate" className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl border border-white/10" /> : null}
                 </motion.div>
             </div>
         )}

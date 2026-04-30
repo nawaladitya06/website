@@ -12,7 +12,7 @@ interface Experience {
   desc: string;
   category: string;
   img: string;
-  doc: string;
+  doc: string | null;
 }
 
 export default function ExperienceListClient({ items }: { items: Experience[] }) {
@@ -56,7 +56,7 @@ export default function ExperienceListClient({ items }: { items: Experience[] })
                   <td className="py-3 px-6 rounded-l-4xl border-y border-l border-white/5 group-hover:border-purple-500/30">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-xl bg-white/5 overflow-hidden border border-white/10 flex items-center justify-center">
-                            <img src={item.img} alt={item.org} className="w-full h-full object-cover" onError={(e) => (e.currentTarget.style.display = 'none')} />
+                            {item.img ? <img src={item.img} alt={item.org} className="w-full h-full object-cover relative z-10" onError={(e) => (e.currentTarget.style.display = 'none')} /> : null}
                             <Briefcase size={20} className="text-gray-600 absolute" />
                         </div>
                         <div>

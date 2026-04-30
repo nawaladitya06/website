@@ -86,7 +86,7 @@ export default async function EditBlogPostPage({ params }: { params: Promise<{ i
                         <input required name="cover" defaultValue={post.cover} className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500 focus:bg-white/5 transition-all text-[10px]" />
                         {post.cover && (
                             <div className="mt-3 rounded-xl overflow-hidden border border-white/5 aspect-video">
-                                <img src={post.cover} alt="Preview" className="w-full h-full object-cover opacity-50" />
+                                {post?.cover ? <img src={post.cover} alt="Preview" className="w-full h-full object-cover opacity-50" /> : null}
                             </div>
                         )}
                     </div>

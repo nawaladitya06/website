@@ -53,7 +53,7 @@ export default async function AdminBlogPage() {
                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                                 <div className="flex gap-6 items-start">
                                     <div className="hidden sm:block w-24 h-16 rounded-xl overflow-hidden bg-black/20 border border-white/5 shrink-0">
-                                        <img src={post.cover} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="" />
+                                        {post.cover ? <img src={post.cover} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="" /> : null}
                                     </div>
                                     <div className="space-y-1">
                                         <h3 className="text-white font-bold text-lg tracking-tight group-hover:text-purple-400 transition-colors">{post.title}</h3>

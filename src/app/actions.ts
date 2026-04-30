@@ -50,7 +50,17 @@ export async function getSkillsAction() {
 export async function getExperiencesAction() {
   const env = getRequestContext().env as Env;
   const db = getDb(env);
-  return await db.select().from(experiences);
+  const result = await db.select().from(experiences);
+  return result as {
+    id: number;
+    role: string;
+    org: string;
+    year: string;
+    desc: string;
+    category: "leadership" | "professional";
+    img: string;
+    doc: string | null;
+  }[];
 }
 
 export async function getEducationsAction() {
@@ -128,7 +138,7 @@ export async function createProjectAction(formData: FormData) {
   await db.insert(projects).values({
     title: formData.get('title') as string,
     desc: formData.get('desc') as string,
-    tech: JSON.stringify(techArray),
+    tech: techArray,
     year: formData.get('year') as string,
     size: formData.get('size') as string || 'col-span-1',
     img: formData.get('img') as string,
@@ -155,7 +165,7 @@ export async function updateProjectAction(id: number, formData: FormData) {
   await db.update(projects).set({
     title: formData.get('title') as string,
     desc: formData.get('desc') as string,
-    tech: JSON.stringify(techArray),
+    tech: techArray,
     year: formData.get('year') as string,
     size: formData.get('size') as string || 'col-span-1',
     img: formData.get('img') as string,
@@ -281,10 +291,6 @@ export async function updateExperienceAction(id: number, formData: FormData) {
     role: formData.get('role') as string,
     org: formData.get('org') as string,
     year: formData.get('year') as string,
-    issuer: formData.get('issuer') as string,
-    date: formData.get('date') as string,
-    type: formData.get('type') as string || 'major',
-    url: formData.get('url') as string || null,
     desc: formData.get('desc') as string,
     category: formData.get('category') as string,
     doc: formData.get('doc') as string || null,

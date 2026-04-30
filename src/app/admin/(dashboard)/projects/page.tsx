@@ -62,7 +62,7 @@ export default async function AdminProjectsPage() {
                         <div key={item.id} className="group flex flex-col md:flex-row md:items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-3xl hover:bg-white/[0.05] hover:border-purple-500/30 transition-all gap-6">
                            <div className="flex items-center gap-6">
                                 <div className="w-20 h-20 rounded-2xl overflow-hidden bg-black/20 border border-white/10 shadow-inner">
-                                    <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                    {item.img ? <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" /> : null}
                                 </div>
                                 <div className="space-y-1">
                                     <h3 className="text-white font-black text-xl tracking-tight">{item.title}</h3>

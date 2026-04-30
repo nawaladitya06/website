@@ -95,7 +95,7 @@ export default function SkillsRadar({ skills }: SkillsRadarProps) {
           <motion.polygon
             initial={{ scale: 0, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1, ease: "circOut" }}
+            transition={{ duration: 1, ease: "easeOut" }}
             viewport={{ once: true }}
             points={dataPoints}
             fill="url(#radarGradient)"

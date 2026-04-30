@@ -1,5 +1,5 @@
 "use client";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring, Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Calendar, User, Share2 } from "lucide-react";
@@ -7,13 +7,12 @@ import { ArrowLeft, Calendar, User, Share2 } from "lucide-react";
 export default function BlogPostClient({ post }: { post: any }) {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
-    stagger: 0,
     stiffness: 100,
     damping: 30,
     restDelta: 0.001
   });
 
-  const containerVars = {
+  const containerVars: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -24,9 +23,9 @@ export default function BlogPostClient({ post }: { post: any }) {
     }
   };
 
-  const itemVars = {
+  const itemVars: Variants = {
     hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "circOut" } }
+    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
   };
 
   return (
