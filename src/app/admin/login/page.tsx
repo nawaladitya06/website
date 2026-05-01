@@ -1,5 +1,5 @@
-export const dynamic = "force-dynamic";
 "use client";
+export const dynamic = "force-dynamic";
 import { loginAction } from "../actions";
 import { useActionState } from "react";
 
