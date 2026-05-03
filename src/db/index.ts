@@ -11,5 +11,5 @@ import * as schema from './schema';
  */
 export async function getDb() {
   const { env } = await getCloudflareContext({ async: true });
-  return drizzle(env.DB, { schema });
+  return drizzle((env as any).DB, { schema });
 }
