@@ -1,21 +1,15 @@
 'use server'
 
-import { getDb, isDbAvailable } from '@/db';
+import { getDb } from '@/db';
 import { projects, experiences, educations, messages, skills, about, profile, posts, certifications } from '@/db/schema';
 import { desc, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
-
-export interface Env {
-  DB: any;
-}
 
 // ========================
 // PUBLIC GETTERS
 // ========================
 export async function getProjectsAction() {
-  const env = process.env as unknown as Env;
-  if (!isDbAvailable(env)) return [];
-  const db = getDb(env);
+  const db = await getDb();
   const results = await db.select().from(projects);
   return results.map(p => ({
     ...p,
@@ -24,9 +18,7 @@ export async function getProjectsAction() {
 }
 
 export async function getProjectByIdAction(id: number) {
-  const env = process.env as unknown as Env;
-  if (!isDbAvailable(env)) return null;
-  const db = getDb(env);
+  const db = await getDb();
   const result = await db.select().from(projects).where(eq(projects.id, id));
   const p = result[0] || null;
   if (!p) return null;
@@ -37,32 +29,17 @@ export async function getProjectByIdAction(id: number) {
 }
 
 export async function getAboutAction() {
-  const env = process.env as unknown as Env;
-  if (!isDbAvailable(env)) return [];
-  const db = getDb(env);
+  const db = await getDb();
   return await db.select().from(about);
 }
 
 export async function getSkillsAction() {
-  const env = process.env as unknown as Env;
-  if (!isDbAvailable(env)) return [];
-  const db = getDb(env);
+  const db = await getDb();
   return await db.select().from(skills);
 }
 
 export async function getExperiencesAction() {
-  const env = process.env as unknown as Env;
-  if (!isDbAvailable(env)) return [] as {
-    id: number;
-    role: string;
-    org: string;
-    year: string;
-    desc: string;
-    category: "leadership" | "professional";
-    img: string;
-    doc: string | null;
-  }[];
-  const db = getDb(env);
+  const db = await getDb();
   const result = await db.select().from(experiences);
   return result as {
     id: number;
@@ -77,23 +54,17 @@ export async function getExperiencesAction() {
 }
 
 export async function getEducationsAction() {
-  const env = process.env as unknown as Env;
-  if (!isDbAvailable(env)) return [];
-  const db = getDb(env);
+  const db = await getDb();
   return await db.select().from(educations);
 }
 
 export async function getPostsAction() {
-  const env = process.env as unknown as Env;
-  if (!isDbAvailable(env)) return [];
-  const db = getDb(env);
+  const db = await getDb();
   return await db.select().from(posts).orderBy(desc(posts.date));
 }
 
 export async function getPostBySlugAction(slug: string) {
-  const env = process.env as unknown as Env;
-  if (!isDbAvailable(env)) return null;
-  const db = getDb(env);
+  const db = await getDb();
   const result = await db.select().from(posts).where(eq(posts.slug, slug));
   return result[0] || null;
 }
@@ -102,8 +73,7 @@ export async function getPostBySlugAction(slug: string) {
 // PUBLIC MUTATIONS
 // ========================
 export async function submitContactForm(formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   
   const name = formData.get('name') as string;
   const email = formData.get('email') as string;
@@ -122,21 +92,18 @@ export async function submitContactForm(formData: FormData) {
 // ADMIN CRUD (MESSAGES)
 // ========================
 export async function getMessagesAction() {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   return await db.select().from(messages).orderBy(desc(messages.createdAt));
 }
 
 export async function getMessageByIdAction(id: number) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   const result = await db.select().from(messages).where(eq(messages.id, id));
   return result[0] || null;
 }
 
 export async function deleteMessageAction(id: number) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   await db.delete(messages).where(eq(messages.id, id));
   revalidatePath('/admin/messages');
 }
@@ -145,8 +112,7 @@ export async function deleteMessageAction(id: number) {
 // ADMIN CRUD (PROJECTS)
 // ========================
 export async function createProjectAction(formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   
   const techString = formData.get('tech') as string;
   const techArray = techString.split(',').map(s => s.trim()).filter(Boolean);
@@ -172,8 +138,7 @@ export async function createProjectAction(formData: FormData) {
 }
 
 export async function updateProjectAction(id: number, formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   
   const techString = formData.get('tech') as string;
   const techArray = techString.split(',').map(s => s.trim()).filter(Boolean);
@@ -200,8 +165,7 @@ export async function updateProjectAction(id: number, formData: FormData) {
 }
 
 export async function deleteProjectAction(id: number) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   await db.delete(projects).where(eq(projects.id, id));
   revalidatePath('/');
   revalidatePath('/projects');
@@ -212,15 +176,13 @@ export async function deleteProjectAction(id: number) {
 // ADMIN CRUD (BLOG POSTS)
 // ========================
 export async function getPostByIdAction(id: number) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   const result = await db.select().from(posts).where(eq(posts.id, id));
   return result[0] || null;
 }
 
 export async function createPostAction(formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
 
   await db.insert(posts).values({
     title: formData.get('title') as string,
@@ -236,8 +198,7 @@ export async function createPostAction(formData: FormData) {
 }
 
 export async function updatePostAction(id: number, formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
 
   await db.update(posts).set({
     title: formData.get('title') as string,
@@ -254,8 +215,7 @@ export async function updatePostAction(id: number, formData: FormData) {
 }
 
 export async function deletePostAction(id: number) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   await db.delete(posts).where(eq(posts.id, id));
   revalidatePath('/blog');
   revalidatePath('/admin/blog');
@@ -265,15 +225,13 @@ export async function deletePostAction(id: number) {
 // ADMIN CRUD (EXPERIENCE)
 // ========================
 export async function getExperienceByIdAction(id: number) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   const result = await db.select().from(experiences).where(eq(experiences.id, id));
   return result[0] || null;
 }
 
 export async function createExperienceAction(formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
 
   const imgFile = formData.get('img') as File;
   let imgStr = formData.get('img_url') as string || null;
@@ -298,8 +256,7 @@ export async function createExperienceAction(formData: FormData) {
 }
 
 export async function updateExperienceAction(id: number, formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
 
   const imgFile = formData.get('img') as File;
   
@@ -327,8 +284,7 @@ export async function updateExperienceAction(id: number, formData: FormData) {
 }
 
 export async function deleteExperienceAction(id: number) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   await db.delete(experiences).where(eq(experiences.id, id));
   revalidatePath('/');
   revalidatePath('/experience');
@@ -339,15 +295,13 @@ export async function deleteExperienceAction(id: number) {
 // ADMIN CRUD (EDUCATION)
 // ========================
 export async function getEducationByIdAction(id: number) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   const result = await db.select().from(educations).where(eq(educations.id, id));
   return result[0] || null;
 }
 
 export async function createEducationAction(formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   
   await db.insert(educations).values({
     institution: formData.get('institution') as string,
@@ -362,8 +316,7 @@ export async function createEducationAction(formData: FormData) {
 }
 
 export async function updateEducationAction(id: number, formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   
   await db.update(educations).set({
     institution: formData.get('institution') as string,
@@ -379,8 +332,7 @@ export async function updateEducationAction(id: number, formData: FormData) {
 }
 
 export async function deleteEducationAction(id: number) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   await db.delete(educations).where(eq(educations.id, id));
   revalidatePath('/');
   revalidatePath('/education');
@@ -391,15 +343,13 @@ export async function deleteEducationAction(id: number) {
 // ADMIN CRUD (SKILLS)
 // ========================
 export async function getSkillByIdAction(id: number) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   const result = await db.select().from(skills).where(eq(skills.id, id));
   return result[0] || null;
 }
 
 export async function createSkillAction(formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   
   await db.insert(skills).values({
     category: formData.get('category') as string,
@@ -413,8 +363,7 @@ export async function createSkillAction(formData: FormData) {
 }
 
 export async function updateSkillAction(id: number, formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   
   await db.update(skills).set({
     category: formData.get('category') as string,
@@ -429,8 +378,7 @@ export async function updateSkillAction(id: number, formData: FormData) {
 }
 
 export async function deleteSkillAction(id: number) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   await db.delete(skills).where(eq(skills.id, id));
   revalidatePath('/');
   revalidatePath('/skills');
@@ -441,15 +389,13 @@ export async function deleteSkillAction(id: number) {
 // ADMIN CRUD (ABOUT)
 // ========================
 export async function getAboutByIdAction(id: number) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   const result = await db.select().from(about).where(eq(about.id, id));
   return result[0] || null;
 }
 
 export async function createAboutAction(formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   
   await db.insert(about).values({
     content: formData.get('content') as string,
@@ -460,8 +406,7 @@ export async function createAboutAction(formData: FormData) {
 }
 
 export async function updateAboutAction(id: number, formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   
   await db.update(about).set({
     content: formData.get('content') as string,
@@ -473,8 +418,7 @@ export async function updateAboutAction(id: number, formData: FormData) {
 }
 
 export async function deleteAboutAction(id: number) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   await db.delete(about).where(eq(about.id, id));
   revalidatePath('/');
   revalidatePath('/education');
@@ -485,16 +429,13 @@ export async function deleteAboutAction(id: number) {
 // ADMIN CRUD (PROFILE)
 // ========================
 export async function getProfileAction() {
-  const env = process.env as unknown as Env;
-  if (!isDbAvailable(env)) return null;
-  const db = getDb(env);
+  const db = await getDb();
   const result = await db.select().from(profile);
   return result[0] || null;
 }
 
 export async function updateProfileAction(formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   
   const existing = await getProfileAction();
   
@@ -525,23 +466,18 @@ export async function updateProfileAction(formData: FormData) {
 // ADMIN CRUD (CERTIFICATIONS)
 // ========================
 export async function getCertificationsAction() {
-  const env = process.env as unknown as Env;
-  if (!isDbAvailable(env)) return [];
-  const db = getDb(env);
+  const db = await getDb();
   return await db.select().from(certifications);
 }
 
 export async function getCertificationByIdAction(id: number) {
-  const env = process.env as unknown as Env;
-  if (!isDbAvailable(env)) return null;
-  const db = getDb(env);
+  const db = await getDb();
   const result = await db.select().from(certifications).where(eq(certifications.id, id));
   return result[0] || null;
 }
 
 export async function createCertificationAction(formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
 
   const imgFile = formData.get('img') as File;
   const urlFile = formData.get('url') as File;
@@ -576,8 +512,7 @@ export async function createCertificationAction(formData: FormData) {
 }
 
 export async function updateCertificationAction(id: number, formData: FormData) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
 
   const imgFile = formData.get('img') as File;
   const urlFile = formData.get('url') as File;
@@ -613,8 +548,7 @@ export async function updateCertificationAction(id: number, formData: FormData) 
 }
 
 export async function deleteCertificationAction(id: number) {
-  const env = process.env as unknown as Env;
-  const db = getDb(env);
+  const db = await getDb();
   await db.delete(certifications).where(eq(certifications.id, id));
   revalidatePath('/resume');
   revalidatePath('/admin/certifications');
