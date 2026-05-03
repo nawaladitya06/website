@@ -1,6 +1,6 @@
 'use server'
 
-import { getDb } from '@/db';
+import { getDb, isDbAvailable } from '@/db';
 import { projects, experiences, educations, messages, skills, about, profile, posts, certifications } from '@/db/schema';
 import { desc, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
@@ -14,6 +14,7 @@ export interface Env {
 // ========================
 export async function getProjectsAction() {
   const env = process.env as unknown as Env;
+  if (!isDbAvailable(env)) return [];
   const db = getDb(env);
   const results = await db.select().from(projects);
   return results.map(p => ({
@@ -24,6 +25,7 @@ export async function getProjectsAction() {
 
 export async function getProjectByIdAction(id: number) {
   const env = process.env as unknown as Env;
+  if (!isDbAvailable(env)) return null;
   const db = getDb(env);
   const result = await db.select().from(projects).where(eq(projects.id, id));
   const p = result[0] || null;
@@ -36,18 +38,30 @@ export async function getProjectByIdAction(id: number) {
 
 export async function getAboutAction() {
   const env = process.env as unknown as Env;
+  if (!isDbAvailable(env)) return [];
   const db = getDb(env);
   return await db.select().from(about);
 }
 
 export async function getSkillsAction() {
   const env = process.env as unknown as Env;
+  if (!isDbAvailable(env)) return [];
   const db = getDb(env);
   return await db.select().from(skills);
 }
 
 export async function getExperiencesAction() {
   const env = process.env as unknown as Env;
+  if (!isDbAvailable(env)) return [] as {
+    id: number;
+    role: string;
+    org: string;
+    year: string;
+    desc: string;
+    category: "leadership" | "professional";
+    img: string;
+    doc: string | null;
+  }[];
   const db = getDb(env);
   const result = await db.select().from(experiences);
   return result as {
@@ -64,18 +78,21 @@ export async function getExperiencesAction() {
 
 export async function getEducationsAction() {
   const env = process.env as unknown as Env;
+  if (!isDbAvailable(env)) return [];
   const db = getDb(env);
   return await db.select().from(educations);
 }
 
 export async function getPostsAction() {
   const env = process.env as unknown as Env;
+  if (!isDbAvailable(env)) return [];
   const db = getDb(env);
   return await db.select().from(posts).orderBy(desc(posts.date));
 }
 
 export async function getPostBySlugAction(slug: string) {
   const env = process.env as unknown as Env;
+  if (!isDbAvailable(env)) return null;
   const db = getDb(env);
   const result = await db.select().from(posts).where(eq(posts.slug, slug));
   return result[0] || null;
@@ -469,6 +486,7 @@ export async function deleteAboutAction(id: number) {
 // ========================
 export async function getProfileAction() {
   const env = process.env as unknown as Env;
+  if (!isDbAvailable(env)) return null;
   const db = getDb(env);
   const result = await db.select().from(profile);
   return result[0] || null;
@@ -508,12 +526,14 @@ export async function updateProfileAction(formData: FormData) {
 // ========================
 export async function getCertificationsAction() {
   const env = process.env as unknown as Env;
+  if (!isDbAvailable(env)) return [];
   const db = getDb(env);
   return await db.select().from(certifications);
 }
 
 export async function getCertificationByIdAction(id: number) {
   const env = process.env as unknown as Env;
+  if (!isDbAvailable(env)) return null;
   const db = getDb(env);
   const result = await db.select().from(certifications).where(eq(certifications.id, id));
   return result[0] || null;

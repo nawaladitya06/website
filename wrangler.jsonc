@@ -13,7 +13,8 @@
 		{
 			"binding": "DB",
 			"database_name": "portfolio-db",
-			"database_id": "3493924d-1d62-4b7c-a479-0552e35314b1"
+			"database_id": "3493924d-1d62-4b7c-a479-0552e35314b1",
+			"migrations_dir": "drizzle"
 		}
 	]
 }

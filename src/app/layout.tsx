@@ -16,7 +16,7 @@ import PageTransition from "@/components/ui/PageTransition";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body className={`${inter.variable} ${jetbrains.variable} bg-[#050505] text-white antialiased font-sans`}>
         {/* Layer 1: Mouse Spotlight */}
         <SpotlightBackground />
