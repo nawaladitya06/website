@@ -1,15 +1,17 @@
 export const dynamic = "force-dynamic";
-import { getProjectsAction, getExperiencesAction, getEducationsAction, getSkillsAction, getAboutAction, getMessagesAction } from "@/app/actions";
+import { getProjectsAction, getExperiencesAction, getEducationsAction, getSkillsAction, getAboutAction, getMessagesAction, getPostsAction, getCertificationsAction } from "@/app/actions";
 
 
 export default async function AdminDashboard() {
-  const [projectsRes, experiencesRes, educationsRes, skillsRes, aboutRes, messagesRes] = await Promise.all([
+  const [projectsRes, experiencesRes, educationsRes, skillsRes, aboutRes, messagesRes, postsRes, certsRes] = await Promise.all([
     getProjectsAction(),
     getExperiencesAction(),
     getEducationsAction(),
     getSkillsAction(),
     getAboutAction(),
-    getMessagesAction()
+    getMessagesAction(),
+    getPostsAction(),
+    getCertificationsAction()
   ]);
 
   const projects = projectsRes || [];
@@ -18,10 +20,12 @@ export default async function AdminDashboard() {
   const skills = skillsRes || [];
   const about = aboutRes || [];
   const messages = messagesRes || [];
+  const posts = postsRes || [];
+  const certs = certsRes || [];
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold text-white mb-8 tracking-tight">Admin Overview</h1>
+    <div className="p-8 max-w-7xl mx-auto pb-24">
+      <h1 className="text-4xl font-black text-white mb-8 tracking-tighter">Admin Overview<span className="text-purple-500">.</span></h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Messages Card - High Priority */}
@@ -31,7 +35,7 @@ export default async function AdminDashboard() {
              Inbox
              {messages.length > 0 && <span className="text-xs px-2 py-0.5 bg-purple-500 text-white rounded-full">{messages.length}</span>}
           </h2>
-          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono">Contact Form Requests</p>
+          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono font-bold">Contact Requests</p>
           <ul className="flex flex-col gap-3 flex-1 mb-8">
             {messages.slice(0,3).map(m => (
                 <li key={m.id} className="text-sm border-l-2 border-purple-500/30 pl-4 py-1">
@@ -46,7 +50,7 @@ export default async function AdminDashboard() {
 
         <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-2xl flex flex-col group relative overflow-hidden">
           <h2 className="text-2xl font-bold text-white mb-2">Projects</h2>
-          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono">Works Summary ({projects.length})</p>
+          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono font-bold">Works ({projects.length})</p>
           <ul className="flex flex-col gap-3 flex-1 mb-8">
             {projects.slice(0,3).map(p => <li key={p.id} className="text-gray-300 text-sm flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-cyan-500" /> {p.title}</li>)}
           </ul>
@@ -54,12 +58,30 @@ export default async function AdminDashboard() {
         </div>
 
         <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-2xl flex flex-col group relative overflow-hidden">
+          <h2 className="text-2xl font-bold text-white mb-2">Blog Posts</h2>
+          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono font-bold">Articles ({posts.length})</p>
+          <ul className="flex flex-col gap-3 flex-1 mb-8">
+            {posts.slice(0,3).map(p => <li key={p.id} className="text-gray-300 text-sm flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-purple-500" /> {p.title}</li>)}
+          </ul>
+          <a href="/admin/blog" className="w-full py-4 bg-white/5 border border-white/10 text-white font-bold text-center rounded-2xl hover:bg-white/10 transition active:scale-95">Manage Blog</a>
+        </div>
+
+        <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-2xl flex flex-col group relative overflow-hidden">
           <h2 className="text-2xl font-bold text-white mb-2">Experience</h2>
-          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono">Professional History ({experiences.length})</p>
+          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono font-bold">Professional History ({experiences.length})</p>
           <ul className="flex flex-col gap-3 flex-1 mb-8">
             {experiences.slice(0,3).map(e => <li key={e.id} className="text-gray-300 text-sm flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-yellow-500" /> {e.role}</li>)}
           </ul>
           <a href="/admin/experience" className="w-full py-4 bg-white/5 border border-white/10 text-white font-bold text-center rounded-2xl hover:bg-white/10 transition active:scale-95">Manage Experience</a>
+        </div>
+
+        <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-2xl flex flex-col group relative overflow-hidden">
+          <h2 className="text-2xl font-bold text-white mb-2">Certifications</h2>
+          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono font-bold">Validations ({certs.length})</p>
+          <ul className="flex flex-col gap-3 flex-1 mb-8">
+            {certs.slice(0,3).map(c => <li key={c.id} className="text-gray-300 text-sm flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-blue-500" /> {c.name}</li>)}
+          </ul>
+          <a href="/admin/certifications" className="w-full py-4 bg-white/5 border border-white/10 text-white font-bold text-center rounded-2xl hover:bg-white/10 transition active:scale-95">Manage Certs</a>
         </div>
       </div>
     </div>

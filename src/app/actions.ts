@@ -9,64 +9,104 @@ import { revalidatePath } from 'next/cache';
 // PUBLIC GETTERS
 // ========================
 export async function getProjectsAction() {
-  const db = await getDb();
-  const results = await db.select().from(projects);
-  return results.map(p => ({
-    ...p,
-    tech: typeof p.tech === 'string' ? JSON.parse(p.tech) : p.tech
-  }));
+  try {
+    const db = await getDb();
+    const results = await db.select().from(projects);
+    return results.map(p => ({
+      ...p,
+      tech: typeof p.tech === 'string' ? JSON.parse(p.tech) : p.tech
+    }));
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    return [];
+  }
 }
 
 export async function getProjectByIdAction(id: number) {
-  const db = await getDb();
-  const result = await db.select().from(projects).where(eq(projects.id, id));
-  const p = result[0] || null;
-  if (!p) return null;
-  return {
-    ...p,
-    tech: typeof p.tech === 'string' ? JSON.parse(p.tech) : p.tech
-  };
+  try {
+    const db = await getDb();
+    const result = await db.select().from(projects).where(eq(projects.id, id));
+    const p = result[0] || null;
+    if (!p) return null;
+    return {
+      ...p,
+      tech: typeof p.tech === 'string' ? JSON.parse(p.tech) : p.tech
+    };
+  } catch (error) {
+    console.error(`Error fetching project ${id}:`, error);
+    return null;
+  }
 }
 
 export async function getAboutAction() {
-  const db = await getDb();
-  return await db.select().from(about);
+  try {
+    const db = await getDb();
+    return await db.select().from(about);
+  } catch (error) {
+    console.error("Error fetching about:", error);
+    return [];
+  }
 }
 
 export async function getSkillsAction() {
-  const db = await getDb();
-  return await db.select().from(skills);
+  try {
+    const db = await getDb();
+    return await db.select().from(skills);
+  } catch (error) {
+    console.error("Error fetching skills:", error);
+    return [];
+  }
 }
 
 export async function getExperiencesAction() {
-  const db = await getDb();
-  const result = await db.select().from(experiences);
-  return result as {
-    id: number;
-    role: string;
-    org: string;
-    year: string;
-    desc: string;
-    category: "leadership" | "professional";
-    img: string;
-    doc: string | null;
-  }[];
+  try {
+    const db = await getDb();
+    const result = await db.select().from(experiences);
+    return result as {
+      id: number;
+      role: string;
+      org: string;
+      year: string;
+      desc: string;
+      category: "leadership" | "professional";
+      img: string;
+      doc: string | null;
+    }[];
+  } catch (error) {
+    console.error("Error fetching experiences:", error);
+    return [];
+  }
 }
 
 export async function getEducationsAction() {
-  const db = await getDb();
-  return await db.select().from(educations);
+  try {
+    const db = await getDb();
+    return await db.select().from(educations);
+  } catch (error) {
+    console.error("Error fetching educations:", error);
+    return [];
+  }
 }
 
 export async function getPostsAction() {
-  const db = await getDb();
-  return await db.select().from(posts).orderBy(desc(posts.date));
+  try {
+    const db = await getDb();
+    return await db.select().from(posts).orderBy(desc(posts.date));
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return [];
+  }
 }
 
 export async function getPostBySlugAction(slug: string) {
-  const db = await getDb();
-  const result = await db.select().from(posts).where(eq(posts.slug, slug));
-  return result[0] || null;
+  try {
+    const db = await getDb();
+    const result = await db.select().from(posts).where(eq(posts.slug, slug));
+    return result[0] || null;
+  } catch (error) {
+    console.error(`Error fetching post ${slug}:`, error);
+    return null;
+  }
 }
 
 // ========================
@@ -92,8 +132,13 @@ export async function submitContactForm(formData: FormData) {
 // ADMIN CRUD (MESSAGES)
 // ========================
 export async function getMessagesAction() {
-  const db = await getDb();
-  return await db.select().from(messages).orderBy(desc(messages.createdAt));
+  try {
+    const db = await getDb();
+    return await db.select().from(messages).orderBy(desc(messages.createdAt));
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    return [];
+  }
 }
 
 export async function getMessageByIdAction(id: number) {
@@ -429,9 +474,14 @@ export async function deleteAboutAction(id: number) {
 // ADMIN CRUD (PROFILE)
 // ========================
 export async function getProfileAction() {
-  const db = await getDb();
-  const result = await db.select().from(profile);
-  return result[0] || null;
+  try {
+    const db = await getDb();
+    const result = await db.select().from(profile);
+    return result[0] || null;
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    return null;
+  }
 }
 
 export async function updateProfileAction(formData: FormData) {
@@ -466,8 +516,13 @@ export async function updateProfileAction(formData: FormData) {
 // ADMIN CRUD (CERTIFICATIONS)
 // ========================
 export async function getCertificationsAction() {
-  const db = await getDb();
-  return await db.select().from(certifications);
+  try {
+    const db = await getDb();
+    return await db.select().from(certifications);
+  } catch (error) {
+    console.error("Error fetching certifications:", error);
+    return [];
+  }
 }
 
 export async function getCertificationByIdAction(id: number) {
