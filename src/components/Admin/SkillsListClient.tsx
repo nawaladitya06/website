@@ -74,7 +74,7 @@ export default function SkillsListClient({ items }: { items: Skill[] }) {
                       >
                         <Edit3 size={16} />
                       </button>
-                      <form action={deleteSkillAction.bind(null, item.id!) as any}>
+                      <form action={deleteSkillAction.bind(null, item.id!)}>
                         <button 
                           type="submit" 
                           className="p-2.5 bg-red-500/5 text-red-400/50 rounded-xl hover:bg-red-500 hover:text-white transition active:scale-90"

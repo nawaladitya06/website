@@ -112,7 +112,7 @@ export async function getPostBySlugAction(slug: string) {
 // ========================
 // PUBLIC MUTATIONS
 // ========================
-export async function submitContactForm(formData: FormData): Promise<any> {
+export async function submitContactForm(formData: FormData): Promise<void> {
   try {
     const db = await getDb();
     
@@ -121,15 +121,14 @@ export async function submitContactForm(formData: FormData): Promise<any> {
     const message = formData.get('message') as string;
 
     if (!name || !email || !message) {
-      return { success: false, error: 'All fields are required' };
+      throw new Error('All fields are required');
     }
 
     await db.insert(messages).values({ name, email, message });
     revalidatePath('/admin/messages');
-    return { success: true };
   } catch (error) {
     console.error("Error submitting contact form:", error);
-    return { success: false, error: "Database error. Please try again later." };
+    throw new Error("Failed to submit form");
   }
 }
 
@@ -152,22 +151,21 @@ export async function getMessageByIdAction(id: number) {
   return result[0] || null;
 }
 
-export async function deleteMessageAction(id: number): Promise<any> {
+export async function deleteMessageAction(id: number): Promise<void> {
   try {
     const db = await getDb();
     await db.delete(messages).where(eq(messages.id, id));
     revalidatePath('/admin/messages');
-    return { success: true };
   } catch (error) {
     console.error(`Error deleting message ${id}:`, error);
-    return { success: false, error: "Failed to delete message." };
+    throw new Error("Failed to delete message");
   }
 }
 
 // ========================
 // ADMIN CRUD (PROJECTS)
 // ========================
-export async function createProjectAction(formData: FormData): Promise<any> {
+export async function createProjectAction(formData: FormData): Promise<void> {
   try {
     const db = await getDb();
     
@@ -192,46 +190,55 @@ export async function createProjectAction(formData: FormData): Promise<any> {
     revalidatePath('/');
     revalidatePath('/projects');
     revalidatePath('/admin/projects');
-    return { success: true };
   } catch (error) {
     console.error("Error creating project:", error);
-    return { success: false, error: "Failed to create project." };
+    throw new Error("Failed to create project");
   }
 }
 
-export async function updateProjectAction(id: number, formData: FormData): Promise<any> {
-  const db = await getDb();
-  
-  const techString = formData.get('tech') as string;
-  const techArray = techString.split(',').map(s => s.trim()).filter(Boolean);
+export async function updateProjectAction(id: number, formData: FormData): Promise<void> {
+  try {
+    const db = await getDb();
+    
+    const techString = formData.get('tech') as string;
+    const techArray = techString.split(',').map(s => s.trim()).filter(Boolean);
 
-  await db.update(projects).set({
-    title: formData.get('title') as string,
-    desc: formData.get('desc') as string,
-    tech: techArray,
-    year: formData.get('year') as string,
-    size: formData.get('size') as string || 'col-span-1',
-    img: formData.get('img') as string,
-    github: formData.get('github') as string || null,
-    demo: formData.get('demo') as string || null,
-    type: formData.get('type') as string,
-    challenge: formData.get('challenge') as string || null,
-    solution: formData.get('solution') as string || null,
-    impact: formData.get('impact') as string || null,
-  }).where(eq(projects.id, id));
-  
-  revalidatePath('/');
-  revalidatePath('/projects');
-  revalidatePath(`/projects/${id}`);
-  revalidatePath('/admin/projects');
+    await db.update(projects).set({
+      title: formData.get('title') as string,
+      desc: formData.get('desc') as string,
+      tech: techArray,
+      year: formData.get('year') as string,
+      size: formData.get('size') as string || 'col-span-1',
+      img: formData.get('img') as string,
+      github: formData.get('github') as string || null,
+      demo: formData.get('demo') as string || null,
+      type: formData.get('type') as string,
+      challenge: formData.get('challenge') as string || null,
+      solution: formData.get('solution') as string || null,
+      impact: formData.get('impact') as string || null,
+    }).where(eq(projects.id, id));
+    
+    revalidatePath('/');
+    revalidatePath('/projects');
+    revalidatePath(`/projects/${id}`);
+    revalidatePath('/admin/projects');
+  } catch (error) {
+    console.error("Error updating project:", error);
+    throw new Error("Failed to update project");
+  }
 }
 
-export async function deleteProjectAction(id: number): Promise<any> {
-  const db = await getDb();
-  await db.delete(projects).where(eq(projects.id, id));
-  revalidatePath('/');
-  revalidatePath('/projects');
-  revalidatePath('/admin/projects');
+export async function deleteProjectAction(id: number): Promise<void> {
+  try {
+    const db = await getDb();
+    await db.delete(projects).where(eq(projects.id, id));
+    revalidatePath('/');
+    revalidatePath('/projects');
+    revalidatePath('/admin/projects');
+  } catch (error) {
+    console.error("Error deleting project:", error);
+    throw new Error("Failed to delete project");
+  }
 }
 
 // ========================
@@ -243,44 +250,59 @@ export async function getPostByIdAction(id: number) {
   return result[0] || null;
 }
 
-export async function createPostAction(formData: FormData) {
-  const db = await getDb();
+export async function createPostAction(formData: FormData): Promise<void> {
+  try {
+    const db = await getDb();
 
-  await db.insert(posts).values({
-    title: formData.get('title') as string,
-    slug: formData.get('slug') as string,
-    excerpt: formData.get('excerpt') as string,
-    content: formData.get('content') as string,
-    cover: formData.get('cover') as string,
-    date: new Date().toISOString().split('T')[0],
-  });
+    await db.insert(posts).values({
+      title: formData.get('title') as string,
+      slug: formData.get('slug') as string,
+      excerpt: formData.get('excerpt') as string,
+      content: formData.get('content') as string,
+      cover: formData.get('cover') as string,
+      date: new Date().toISOString().split('T')[0],
+    });
 
-  revalidatePath('/blog');
-  revalidatePath('/admin/blog');
+    revalidatePath('/blog');
+    revalidatePath('/admin/blog');
+  } catch (error) {
+    console.error("Error creating post:", error);
+    throw new Error("Failed to create post");
+  }
 }
 
-export async function updatePostAction(id: number, formData: FormData) {
-  const db = await getDb();
+export async function updatePostAction(id: number, formData: FormData): Promise<void> {
+  try {
+    const db = await getDb();
 
-  await db.update(posts).set({
-    title: formData.get('title') as string,
-    slug: formData.get('slug') as string,
-    excerpt: formData.get('excerpt') as string,
-    content: formData.get('content') as string,
-    cover: formData.get('cover') as string,
-    // date remains original
-  }).where(eq(posts.id, id));
+    await db.update(posts).set({
+      title: formData.get('title') as string,
+      slug: formData.get('slug') as string,
+      excerpt: formData.get('excerpt') as string,
+      content: formData.get('content') as string,
+      cover: formData.get('cover') as string,
+      // date remains original
+    }).where(eq(posts.id, id));
 
-  revalidatePath('/blog');
-  revalidatePath(`/blog/${formData.get('slug')}`);
-  revalidatePath('/admin/blog');
+    revalidatePath('/blog');
+    revalidatePath(`/blog/${formData.get('slug')}`);
+    revalidatePath('/admin/blog');
+  } catch (error) {
+    console.error("Error updating post:", error);
+    throw new Error("Failed to update post");
+  }
 }
 
-export async function deletePostAction(id: number) {
-  const db = await getDb();
-  await db.delete(posts).where(eq(posts.id, id));
-  revalidatePath('/blog');
-  revalidatePath('/admin/blog');
+export async function deletePostAction(id: number): Promise<void> {
+  try {
+    const db = await getDb();
+    await db.delete(posts).where(eq(posts.id, id));
+    revalidatePath('/blog');
+    revalidatePath('/admin/blog');
+  } catch (error) {
+    console.error("Error deleting post:", error);
+    throw new Error("Failed to delete post");
+  }
 }
 
 // ========================
@@ -292,7 +314,7 @@ export async function getExperienceByIdAction(id: number) {
   return result[0] || null;
 }
 
-export async function createExperienceAction(formData: FormData): Promise<any> {
+export async function createExperienceAction(formData: FormData): Promise<void> {
   try {
     const db = await getDb();
 
@@ -316,47 +338,56 @@ export async function createExperienceAction(formData: FormData): Promise<any> {
     });
     revalidatePath('/resume');
     revalidatePath('/admin/experience');
-    return { success: true };
   } catch (error) {
     console.error("Error creating experience:", error);
-    return { success: false, error: "Failed to save experience. Database might be out of sync." };
+    throw new Error("Failed to save experience. Database might be out of sync.");
   }
 }
 
-export async function updateExperienceAction(id: number, formData: FormData): Promise<any> {
-  const db = await getDb();
+export async function updateExperienceAction(id: number, formData: FormData): Promise<void> {
+  try {
+    const db = await getDb();
 
-  const imgFile = formData.get('img') as File;
-  
-  let updateData: any = {
-    role: formData.get('role') as string,
-    org: formData.get('org') as string,
-    year: formData.get('year') as string,
-    desc: formData.get('desc') as string,
-    category: formData.get('category') as string,
-    doc: formData.get('doc') as string || null,
-  };
+    const imgFile = formData.get('img') as File;
+    
+    let updateData: any = {
+      role: formData.get('role') as string,
+      org: formData.get('org') as string,
+      year: formData.get('year') as string,
+      desc: formData.get('desc') as string,
+      category: formData.get('category') as string,
+      doc: formData.get('doc') as string || null,
+    };
 
-  if (imgFile && imgFile.size > 0 && typeof imgFile !== 'string') {
-    const buffer = await imgFile.arrayBuffer();
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
-    updateData.img = `data:${imgFile.type};base64,${base64}`;
-  } else if (formData.get('img_url')) {
-    updateData.img = formData.get('img_url') as string;
+    if (imgFile && imgFile.size > 0 && typeof imgFile !== 'string') {
+      const buffer = await imgFile.arrayBuffer();
+      const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+      updateData.img = `data:${imgFile.type};base64,${base64}`;
+    } else if (formData.get('img_url')) {
+      updateData.img = formData.get('img_url') as string;
+    }
+    
+    await db.update(experiences).set(updateData).where(eq(experiences.id, id));
+    
+    revalidatePath('/resume');
+    revalidatePath('/admin/experience');
+  } catch (error) {
+    console.error("Error updating experience:", error);
+    throw new Error("Failed to update experience");
   }
-  
-  await db.update(experiences).set(updateData).where(eq(experiences.id, id));
-  
-  revalidatePath('/resume');
-  revalidatePath('/admin/experience');
 }
 
-export async function deleteExperienceAction(id: number): Promise<any> {
-  const db = await getDb();
-  await db.delete(experiences).where(eq(experiences.id, id));
-  revalidatePath('/');
-  revalidatePath('/experience');
-  revalidatePath('/admin/experience');
+export async function deleteExperienceAction(id: number): Promise<void> {
+  try {
+    const db = await getDb();
+    await db.delete(experiences).where(eq(experiences.id, id));
+    revalidatePath('/');
+    revalidatePath('/experience');
+    revalidatePath('/admin/experience');
+  } catch (error) {
+    console.error("Error deleting experience:", error);
+    throw new Error("Failed to delete experience");
+  }
 }
 
 // ========================
@@ -368,43 +399,58 @@ export async function getEducationByIdAction(id: number) {
   return result[0] || null;
 }
 
-export async function createEducationAction(formData: FormData): Promise<any> {
-  const db = await getDb();
-  
-  await db.insert(educations).values({
-    institution: formData.get('institution') as string,
-    degree: formData.get('degree') as string,
-    year: formData.get('year') as string,
-    score: formData.get('score') as string,
-    link: formData.get('link') as string,
-  });
-  revalidatePath('/');
-  revalidatePath('/education');
-  revalidatePath('/admin/education');
+export async function createEducationAction(formData: FormData): Promise<void> {
+  try {
+    const db = await getDb();
+    
+    await db.insert(educations).values({
+      institution: formData.get('institution') as string,
+      degree: formData.get('degree') as string,
+      year: formData.get('year') as string,
+      score: formData.get('score') as string,
+      link: formData.get('link') as string,
+    });
+    revalidatePath('/');
+    revalidatePath('/education');
+    revalidatePath('/admin/education');
+  } catch (error) {
+    console.error("Error creating education:", error);
+    throw new Error("Failed to create education");
+  }
 }
 
-export async function updateEducationAction(id: number, formData: FormData): Promise<any> {
-  const db = await getDb();
-  
-  await db.update(educations).set({
-    institution: formData.get('institution') as string,
-    degree: formData.get('degree') as string,
-    year: formData.get('year') as string,
-    score: formData.get('score') as string,
-    link: formData.get('link') as string,
-  }).where(eq(educations.id, id));
+export async function updateEducationAction(id: number, formData: FormData): Promise<void> {
+  try {
+    const db = await getDb();
+    
+    await db.update(educations).set({
+      institution: formData.get('institution') as string,
+      degree: formData.get('degree') as string,
+      year: formData.get('year') as string,
+      score: formData.get('score') as string,
+      link: formData.get('link') as string,
+    }).where(eq(educations.id, id));
 
-  revalidatePath('/');
-  revalidatePath('/education');
-  revalidatePath('/admin/education');
+    revalidatePath('/');
+    revalidatePath('/education');
+    revalidatePath('/admin/education');
+  } catch (error) {
+    console.error("Error updating education:", error);
+    throw new Error("Failed to update education");
+  }
 }
 
-export async function deleteEducationAction(id: number): Promise<any> {
-  const db = await getDb();
-  await db.delete(educations).where(eq(educations.id, id));
-  revalidatePath('/');
-  revalidatePath('/education');
-  revalidatePath('/admin/education');
+export async function deleteEducationAction(id: number): Promise<void> {
+  try {
+    const db = await getDb();
+    await db.delete(educations).where(eq(educations.id, id));
+    revalidatePath('/');
+    revalidatePath('/education');
+    revalidatePath('/admin/education');
+  } catch (error) {
+    console.error("Error deleting education:", error);
+    throw new Error("Failed to delete education");
+  }
 }
 
 // ========================
@@ -416,7 +462,7 @@ export async function getSkillByIdAction(id: number) {
   return result[0] || null;
 }
 
-export async function createSkillAction(formData: FormData): Promise<any> {
+export async function createSkillAction(formData: FormData): Promise<void> {
   try {
     const db = await getDb();
     
@@ -429,34 +475,43 @@ export async function createSkillAction(formData: FormData): Promise<any> {
     revalidatePath('/');
     revalidatePath('/skills');
     revalidatePath('/admin/skills');
-    return { success: true };
   } catch (error) {
     console.error("Error creating skill:", error);
-    return { success: false, error: "Failed to add skill. Please run database migrations." };
+    throw new Error("Failed to add skill. Please run database migrations.");
   }
 }
 
-export async function updateSkillAction(id: number, formData: FormData): Promise<any> {
-  const db = await getDb();
-  
-  await db.update(skills).set({
-    category: formData.get('category') as string,
-    name: formData.get('name') as string,
-    url: formData.get('url') as string,
-    level: parseInt(formData.get('level') as string || '80'),
-  }).where(eq(skills.id, id));
+export async function updateSkillAction(id: number, formData: FormData): Promise<void> {
+  try {
+    const db = await getDb();
+    
+    await db.update(skills).set({
+      category: formData.get('category') as string,
+      name: formData.get('name') as string,
+      url: formData.get('url') as string,
+      level: parseInt(formData.get('level') as string || '80'),
+    }).where(eq(skills.id, id));
 
-  revalidatePath('/');
-  revalidatePath('/skills');
-  revalidatePath('/admin/skills');
+    revalidatePath('/');
+    revalidatePath('/skills');
+    revalidatePath('/admin/skills');
+  } catch (error) {
+    console.error("Error updating skill:", error);
+    throw new Error("Failed to update skill");
+  }
 }
 
-export async function deleteSkillAction(id: number): Promise<any> {
-  const db = await getDb();
-  await db.delete(skills).where(eq(skills.id, id));
-  revalidatePath('/');
-  revalidatePath('/skills');
-  revalidatePath('/admin/skills');
+export async function deleteSkillAction(id: number): Promise<void> {
+  try {
+    const db = await getDb();
+    await db.delete(skills).where(eq(skills.id, id));
+    revalidatePath('/');
+    revalidatePath('/skills');
+    revalidatePath('/admin/skills');
+  } catch (error) {
+    console.error("Error deleting skill:", error);
+    throw new Error("Failed to delete skill");
+  }
 }
 
 // ========================
@@ -468,35 +523,50 @@ export async function getAboutByIdAction(id: number) {
   return result[0] || null;
 }
 
-export async function createAboutAction(formData: FormData): Promise<any> {
-  const db = await getDb();
-  
-  await db.insert(about).values({
-    content: formData.get('content') as string,
-  });
-  revalidatePath('/');
-  revalidatePath('/education');
-  revalidatePath('/admin/profile');
+export async function createAboutAction(formData: FormData): Promise<void> {
+  try {
+    const db = await getDb();
+    
+    await db.insert(about).values({
+      content: formData.get('content') as string,
+    });
+    revalidatePath('/');
+    revalidatePath('/education');
+    revalidatePath('/admin/profile');
+  } catch (error) {
+    console.error("Error creating about:", error);
+    throw new Error("Failed to create about");
+  }
 }
 
-export async function updateAboutAction(id: number, formData: FormData): Promise<any> {
-  const db = await getDb();
-  
-  await db.update(about).set({
-    content: formData.get('content') as string,
-  }).where(eq(about.id, id));
+export async function updateAboutAction(id: number, formData: FormData): Promise<void> {
+  try {
+    const db = await getDb();
+    
+    await db.update(about).set({
+      content: formData.get('content') as string,
+    }).where(eq(about.id, id));
 
-  revalidatePath('/');
-  revalidatePath('/education');
-  revalidatePath('/admin/profile');
+    revalidatePath('/');
+    revalidatePath('/education');
+    revalidatePath('/admin/profile');
+  } catch (error) {
+    console.error("Error updating about:", error);
+    throw new Error("Failed to update about");
+  }
 }
 
-export async function deleteAboutAction(id: number): Promise<any> {
-  const db = await getDb();
-  await db.delete(about).where(eq(about.id, id));
-  revalidatePath('/');
-  revalidatePath('/education');
-  revalidatePath('/admin/profile');
+export async function deleteAboutAction(id: number): Promise<void> {
+  try {
+    const db = await getDb();
+    await db.delete(about).where(eq(about.id, id));
+    revalidatePath('/');
+    revalidatePath('/education');
+    revalidatePath('/admin/profile');
+  } catch (error) {
+    console.error("Error deleting about:", error);
+    throw new Error("Failed to delete about");
+  }
 }
 
 // ========================
@@ -513,32 +583,37 @@ export async function getProfileAction() {
   }
 }
 
-export async function updateProfileAction(formData: FormData): Promise<any> {
-  const db = await getDb();
-  
-  const existing = await getProfileAction();
-  
-  const data = {
-    name: formData.get('name') as string,
-    surname: formData.get('surname') as string,
-    role: formData.get('role') as string,
-    photo: formData.get('photo') as string,
-    github: formData.get('github') as string,
-    linkedin: formData.get('linkedin') as string,
-    email: formData.get('email') as string,
-    resume: formData.get('resume') as string,
-  };
+export async function updateProfileAction(formData: FormData): Promise<void> {
+  try {
+    const db = await getDb();
+    
+    const existing = await getProfileAction();
+    
+    const data = {
+      name: formData.get('name') as string,
+      surname: formData.get('surname') as string,
+      role: formData.get('role') as string,
+      photo: formData.get('photo') as string,
+      github: formData.get('github') as string,
+      linkedin: formData.get('linkedin') as string,
+      email: formData.get('email') as string,
+      resume: formData.get('resume') as string,
+    };
 
-  if (existing) {
-    await db.update(profile).set(data).where(eq(profile.id, existing.id));
-  } else {
-    await db.insert(profile).values(data);
+    if (existing) {
+      await db.update(profile).set(data).where(eq(profile.id, existing.id));
+    } else {
+      await db.insert(profile).values(data);
+    }
+    
+    revalidatePath('/');
+    revalidatePath('/resume');
+    revalidatePath('/education');
+    revalidatePath('/admin/profile');
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    throw new Error("Failed to update profile");
   }
-  
-  revalidatePath('/');
-  revalidatePath('/resume');
-  revalidatePath('/education');
-  revalidatePath('/admin/profile');
 }
 
 // ========================
@@ -560,80 +635,95 @@ export async function getCertificationByIdAction(id: number) {
   return result[0] || null;
 }
 
-export async function createCertificationAction(formData: FormData): Promise<any> {
-  const db = await getDb();
+export async function createCertificationAction(formData: FormData): Promise<void> {
+  try {
+    const db = await getDb();
 
-  const imgFile = formData.get('img') as File;
-  const urlFile = formData.get('url') as File;
-  
-  let imgStr = formData.get('img_url') as string || null;
-  let urlStr = formData.get('file_url') as string || null;
+    const imgFile = formData.get('img') as File;
+    const urlFile = formData.get('url') as File;
+    
+    let imgStr = formData.get('img_url') as string || null;
+    let urlStr = formData.get('file_url') as string || null;
 
-  if (imgFile && imgFile.size > 0 && typeof imgFile !== 'string') {
-    const buffer = await imgFile.arrayBuffer();
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
-    imgStr = `data:${imgFile.type};base64,${base64}`;
+    if (imgFile && imgFile.size > 0 && typeof imgFile !== 'string') {
+      const buffer = await imgFile.arrayBuffer();
+      const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+      imgStr = `data:${imgFile.type};base64,${base64}`;
+    }
+
+    if (urlFile && urlFile.size > 0 && typeof urlFile !== 'string') {
+      const buffer = await urlFile.arrayBuffer();
+      const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+      urlStr = `data:${urlFile.type};base64,${base64}`;
+    }
+    
+    await db.insert(certifications).values({
+      name: formData.get('name') as string,
+      issuer: formData.get('issuer') as string,
+      date: formData.get('date') as string,
+      type: formData.get('type') as string || 'major',
+      url: urlStr,
+      img: imgStr,
+    });
+    
+    revalidatePath('/resume');
+    revalidatePath('/admin/certifications');
+    revalidatePath('/certifications');
+  } catch (error) {
+    console.error("Error creating certification:", error);
+    throw new Error("Failed to create certification");
   }
-
-  if (urlFile && urlFile.size > 0 && typeof urlFile !== 'string') {
-    const buffer = await urlFile.arrayBuffer();
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
-    urlStr = `data:${urlFile.type};base64,${base64}`;
-  }
-  
-  await db.insert(certifications).values({
-    name: formData.get('name') as string,
-    issuer: formData.get('issuer') as string,
-    date: formData.get('date') as string,
-    type: formData.get('type') as string || 'major',
-    url: urlStr,
-    img: imgStr,
-  });
-  
-  revalidatePath('/resume');
-  revalidatePath('/admin/certifications');
-  revalidatePath('/certifications');
 }
 
-export async function updateCertificationAction(id: number, formData: FormData): Promise<any> {
-  const db = await getDb();
+export async function updateCertificationAction(id: number, formData: FormData): Promise<void> {
+  try {
+    const db = await getDb();
 
-  const imgFile = formData.get('img') as File;
-  const urlFile = formData.get('url') as File;
-  
-  let updateData: any = {
-    name: formData.get('name') as string,
-    issuer: formData.get('issuer') as string,
-    date: formData.get('date') as string,
-    type: formData.get('type') as string,
-  };
+    const imgFile = formData.get('img') as File;
+    const urlFile = formData.get('url') as File;
+    
+    let updateData: any = {
+      name: formData.get('name') as string,
+      issuer: formData.get('issuer') as string,
+      date: formData.get('date') as string,
+      type: formData.get('type') as string,
+    };
 
-  if (imgFile && imgFile.size > 0 && typeof imgFile !== 'string') {
-    const buffer = await imgFile.arrayBuffer();
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
-    updateData.img = `data:${imgFile.type};base64,${base64}`;
-  } else if (formData.get('img_url')) {
-    updateData.img = formData.get('img_url') as string;
+    if (imgFile && imgFile.size > 0 && typeof imgFile !== 'string') {
+      const buffer = await imgFile.arrayBuffer();
+      const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+      updateData.img = `data:${imgFile.type};base64,${base64}`;
+    } else if (formData.get('img_url')) {
+      updateData.img = formData.get('img_url') as string;
+    }
+
+    if (urlFile && urlFile.size > 0 && typeof urlFile !== 'string') {
+      const buffer = await urlFile.arrayBuffer();
+      const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+      updateData.url = `data:${urlFile.type};base64,${base64}`;
+    } else if (formData.get('file_url')) {
+      updateData.url = formData.get('file_url') as string;
+    }
+    
+    await db.update(certifications).set(updateData).where(eq(certifications.id, id));
+    
+    revalidatePath('/resume');
+    revalidatePath('/admin/certifications');
+    revalidatePath('/certifications');
+  } catch (error) {
+    console.error("Error updating certification:", error);
+    throw new Error("Failed to update certification");
   }
-
-  if (urlFile && urlFile.size > 0 && typeof urlFile !== 'string') {
-    const buffer = await urlFile.arrayBuffer();
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
-    updateData.url = `data:${urlFile.type};base64,${base64}`;
-  } else if (formData.get('file_url')) {
-    updateData.url = formData.get('file_url') as string;
-  }
-  
-  await db.update(certifications).set(updateData).where(eq(certifications.id, id));
-  
-  revalidatePath('/resume');
-  revalidatePath('/admin/certifications');
-  revalidatePath('/certifications');
 }
 
-export async function deleteCertificationAction(id: number): Promise<any> {
-  const db = await getDb();
-  await db.delete(certifications).where(eq(certifications.id, id));
-  revalidatePath('/resume');
-  revalidatePath('/admin/certifications');
+export async function deleteCertificationAction(id: number): Promise<void> {
+  try {
+    const db = await getDb();
+    await db.delete(certifications).where(eq(certifications.id, id));
+    revalidatePath('/resume');
+    revalidatePath('/admin/certifications');
+  } catch (error) {
+    console.error("Error deleting certification:", error);
+    throw new Error("Failed to delete certification");
+  }
 }

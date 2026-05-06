@@ -80,7 +80,7 @@ export default function ExperienceListClient({ items }: { items: Experience[] })
                       >
                         <Edit3 size={18} />
                       </button>
-                      <form action={deleteExperienceAction.bind(null, item.id!) as any}>
+                      <form action={deleteExperienceAction.bind(null, item.id!)}>
                         <button 
                           type="submit" 
                           className="p-3 bg-red-500/5 text-red-400/50 rounded-xl hover:bg-red-500 hover:text-white transition active:scale-90"

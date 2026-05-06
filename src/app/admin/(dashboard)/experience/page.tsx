@@ -28,7 +28,7 @@ export default async function AdminExperiencePage() {
                     <Plus size={20} className="text-purple-400" />
                     New Experience
                 </h2>
-                <form action={createExperienceAction as any} className="space-y-3">
+                <form action={createExperienceAction} className="space-y-3">
                     <div className="space-y-0.5">
                         <label className="text-[10px] uppercase font-black text-gray-500 tracking-widest ml-1">Role Title</label>
                         <input required name="role" placeholder="e.g. Senior Developer" className="w-full px-5 py-1 bg-black/40 border border-white/10 rounded-4xl text-white focus:outline-none focus:border-purple-500 focus:bg-white/5 transition-all text-sm" />
