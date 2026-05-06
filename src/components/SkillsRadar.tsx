@@ -29,6 +29,11 @@ export default function SkillsRadar({ skills }: SkillsRadarProps) {
   }, [skills]);
 
   const sides = radarData.length;
+  if (sides < 3) return (
+    <div className="flex flex-col items-center justify-center p-12 bg-white/5 backdrop-blur-3xl rounded-[3rem] border border-dashed border-white/10 text-gray-500 italic text-sm w-full h-full min-h-[400px]">
+        Add skills in at least 3 categories to generate your tech radar
+    </div>
+  );
   const angleStep = (Math.PI * 2) / sides;
 
   // Generate points for the radar background polygons

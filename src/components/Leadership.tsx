@@ -15,8 +15,9 @@ export type Experience = {
 };
 
 export default function ExperienceSection({ experiences = [] }: { experiences?: Experience[] }) {
+  // Resilience: Default unknown categories to 'professional' so they aren't hidden
   const leadershipRoles = experiences.filter(exp => exp.category === "leadership");
-  const professionalRoles = experiences.filter(exp => exp.category === "professional");
+  const professionalRoles = experiences.filter(exp => exp.category === "professional" || (exp.category !== "leadership" && exp.category !== "professional"));
 
   return (
     <section id="experience" className="py-20 md:py-32 px-4 md:px-6 max-w-7xl mx-auto space-y-24 text-white">
