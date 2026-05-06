@@ -67,10 +67,31 @@ export default async function AdminDashboard() {
         </div>
 
         <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-2xl flex flex-col group relative overflow-hidden">
-          <h2 className="text-2xl font-bold text-white mb-2">Experience</h2>
-          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono font-bold">Professional History ({experiences.length})</p>
+          <h2 className="text-2xl font-bold text-white mb-2">Skills</h2>
+          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono font-bold">Tech Stack ({skills.length})</p>
           <ul className="flex flex-col gap-3 flex-1 mb-8">
-            {experiences.slice(0,3).map(e => <li key={e.id} className="text-gray-300 text-sm flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-yellow-500" /> {e.role}</li>)}
+            {skills.slice(0,3).map(s => <li key={s.id} className="text-gray-300 text-sm flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-orange-500" /> {s.name} ({s.level}%)</li>)}
+            {skills.length === 0 && <li className="text-gray-500 italic text-sm">No skills listed</li>}
+          </ul>
+          <a href="/admin/skills" className="w-full py-4 bg-white/5 border border-white/10 text-white font-bold text-center rounded-2xl hover:bg-white/10 transition active:scale-95">Manage Skills</a>
+        </div>
+
+        <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-2xl flex flex-col group relative overflow-hidden">
+          <h2 className="text-2xl font-bold text-white mb-2">Education</h2>
+          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono font-bold">Academic ({educations.length})</p>
+          <ul className="flex flex-col gap-3 flex-1 mb-8">
+            {educations.slice(0,3).map(e => <li key={e.id} className="text-gray-300 text-sm flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-green-500" /> {e.institution}</li>)}
+            {educations.length === 0 && <li className="text-gray-500 italic text-sm">No education records</li>}
+          </ul>
+          <a href="/admin/education" className="w-full py-4 bg-white/5 border border-white/10 text-white font-bold text-center rounded-2xl hover:bg-white/10 transition active:scale-95">Manage Education</a>
+        </div>
+
+        <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-2xl flex flex-col group relative overflow-hidden">
+          <h2 className="text-2xl font-bold text-white mb-2">Experience</h2>
+          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono font-bold">Professional ({experiences.length})</p>
+          <ul className="flex flex-col gap-3 flex-1 mb-8">
+            {experiences.slice(0,3).map(e => <li key={e.id} className="text-gray-300 text-sm flex items-center gap-2"><div className={`w-1.5 h-1.5 rounded-full ${e.category === 'leadership' ? 'bg-cyan-500' : 'bg-purple-500'}`} /> {e.role}</li>)}
+            {experiences.length === 0 && <li className="text-gray-500 italic text-sm">No experience entries</li>}
           </ul>
           <a href="/admin/experience" className="w-full py-4 bg-white/5 border border-white/10 text-white font-bold text-center rounded-2xl hover:bg-white/10 transition active:scale-95">Manage Experience</a>
         </div>
@@ -80,6 +101,7 @@ export default async function AdminDashboard() {
           <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest font-mono font-bold">Validations ({certs.length})</p>
           <ul className="flex flex-col gap-3 flex-1 mb-8">
             {certs.slice(0,3).map(c => <li key={c.id} className="text-gray-300 text-sm flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-blue-500" /> {c.name}</li>)}
+            {certs.length === 0 && <li className="text-gray-500 italic text-sm">No certs added</li>}
           </ul>
           <a href="/admin/certifications" className="w-full py-4 bg-white/5 border border-white/10 text-white font-bold text-center rounded-2xl hover:bg-white/10 transition active:scale-95">Manage Certs</a>
         </div>
