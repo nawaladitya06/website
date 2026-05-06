@@ -40,11 +40,11 @@ export default function Contact() {
         {/* Contact Form */}
         <form 
           action={async (formData) => {
-            const res = await submitContactForm(formData);
-            if (res.success) {
+            try {
+              await submitContactForm(formData);
               alert("Message sent successfully!");
-            } else {
-              alert("Error: " + res.error);
+            } catch (error: any) {
+              alert("Error: " + error.message);
             }
           }}
           className="flex flex-col gap-4 w-full max-w-md mx-auto mb-8"
