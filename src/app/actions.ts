@@ -112,7 +112,7 @@ export async function getPostBySlugAction(slug: string) {
 // ========================
 // PUBLIC MUTATIONS
 // ========================
-export async function submitContactForm(formData: FormData) {
+export async function submitContactForm(formData: FormData): Promise<any> {
   try {
     const db = await getDb();
     
@@ -152,7 +152,7 @@ export async function getMessageByIdAction(id: number) {
   return result[0] || null;
 }
 
-export async function deleteMessageAction(id: number) {
+export async function deleteMessageAction(id: number): Promise<any> {
   try {
     const db = await getDb();
     await db.delete(messages).where(eq(messages.id, id));
@@ -167,7 +167,7 @@ export async function deleteMessageAction(id: number) {
 // ========================
 // ADMIN CRUD (PROJECTS)
 // ========================
-export async function createProjectAction(formData: FormData) {
+export async function createProjectAction(formData: FormData): Promise<any> {
   try {
     const db = await getDb();
     
@@ -199,7 +199,7 @@ export async function createProjectAction(formData: FormData) {
   }
 }
 
-export async function updateProjectAction(id: number, formData: FormData) {
+export async function updateProjectAction(id: number, formData: FormData): Promise<any> {
   const db = await getDb();
   
   const techString = formData.get('tech') as string;
@@ -226,7 +226,7 @@ export async function updateProjectAction(id: number, formData: FormData) {
   revalidatePath('/admin/projects');
 }
 
-export async function deleteProjectAction(id: number) {
+export async function deleteProjectAction(id: number): Promise<any> {
   const db = await getDb();
   await db.delete(projects).where(eq(projects.id, id));
   revalidatePath('/');
@@ -292,7 +292,7 @@ export async function getExperienceByIdAction(id: number) {
   return result[0] || null;
 }
 
-export async function createExperienceAction(formData: FormData) {
+export async function createExperienceAction(formData: FormData): Promise<any> {
   try {
     const db = await getDb();
 
@@ -323,7 +323,7 @@ export async function createExperienceAction(formData: FormData) {
   }
 }
 
-export async function updateExperienceAction(id: number, formData: FormData) {
+export async function updateExperienceAction(id: number, formData: FormData): Promise<any> {
   const db = await getDb();
 
   const imgFile = formData.get('img') as File;
@@ -351,7 +351,7 @@ export async function updateExperienceAction(id: number, formData: FormData) {
   revalidatePath('/admin/experience');
 }
 
-export async function deleteExperienceAction(id: number) {
+export async function deleteExperienceAction(id: number): Promise<any> {
   const db = await getDb();
   await db.delete(experiences).where(eq(experiences.id, id));
   revalidatePath('/');
@@ -368,7 +368,7 @@ export async function getEducationByIdAction(id: number) {
   return result[0] || null;
 }
 
-export async function createEducationAction(formData: FormData) {
+export async function createEducationAction(formData: FormData): Promise<any> {
   const db = await getDb();
   
   await db.insert(educations).values({
@@ -383,7 +383,7 @@ export async function createEducationAction(formData: FormData) {
   revalidatePath('/admin/education');
 }
 
-export async function updateEducationAction(id: number, formData: FormData) {
+export async function updateEducationAction(id: number, formData: FormData): Promise<any> {
   const db = await getDb();
   
   await db.update(educations).set({
@@ -399,7 +399,7 @@ export async function updateEducationAction(id: number, formData: FormData) {
   revalidatePath('/admin/education');
 }
 
-export async function deleteEducationAction(id: number) {
+export async function deleteEducationAction(id: number): Promise<any> {
   const db = await getDb();
   await db.delete(educations).where(eq(educations.id, id));
   revalidatePath('/');
@@ -416,7 +416,7 @@ export async function getSkillByIdAction(id: number) {
   return result[0] || null;
 }
 
-export async function createSkillAction(formData: FormData) {
+export async function createSkillAction(formData: FormData): Promise<any> {
   try {
     const db = await getDb();
     
@@ -436,7 +436,7 @@ export async function createSkillAction(formData: FormData) {
   }
 }
 
-export async function updateSkillAction(id: number, formData: FormData) {
+export async function updateSkillAction(id: number, formData: FormData): Promise<any> {
   const db = await getDb();
   
   await db.update(skills).set({
@@ -451,7 +451,7 @@ export async function updateSkillAction(id: number, formData: FormData) {
   revalidatePath('/admin/skills');
 }
 
-export async function deleteSkillAction(id: number) {
+export async function deleteSkillAction(id: number): Promise<any> {
   const db = await getDb();
   await db.delete(skills).where(eq(skills.id, id));
   revalidatePath('/');
@@ -468,7 +468,7 @@ export async function getAboutByIdAction(id: number) {
   return result[0] || null;
 }
 
-export async function createAboutAction(formData: FormData) {
+export async function createAboutAction(formData: FormData): Promise<any> {
   const db = await getDb();
   
   await db.insert(about).values({
@@ -479,7 +479,7 @@ export async function createAboutAction(formData: FormData) {
   revalidatePath('/admin/profile');
 }
 
-export async function updateAboutAction(id: number, formData: FormData) {
+export async function updateAboutAction(id: number, formData: FormData): Promise<any> {
   const db = await getDb();
   
   await db.update(about).set({
@@ -491,7 +491,7 @@ export async function updateAboutAction(id: number, formData: FormData) {
   revalidatePath('/admin/profile');
 }
 
-export async function deleteAboutAction(id: number) {
+export async function deleteAboutAction(id: number): Promise<any> {
   const db = await getDb();
   await db.delete(about).where(eq(about.id, id));
   revalidatePath('/');
@@ -513,7 +513,7 @@ export async function getProfileAction() {
   }
 }
 
-export async function updateProfileAction(formData: FormData) {
+export async function updateProfileAction(formData: FormData): Promise<any> {
   const db = await getDb();
   
   const existing = await getProfileAction();
@@ -560,7 +560,7 @@ export async function getCertificationByIdAction(id: number) {
   return result[0] || null;
 }
 
-export async function createCertificationAction(formData: FormData) {
+export async function createCertificationAction(formData: FormData): Promise<any> {
   const db = await getDb();
 
   const imgFile = formData.get('img') as File;
@@ -595,7 +595,7 @@ export async function createCertificationAction(formData: FormData) {
   revalidatePath('/certifications');
 }
 
-export async function updateCertificationAction(id: number, formData: FormData) {
+export async function updateCertificationAction(id: number, formData: FormData): Promise<any> {
   const db = await getDb();
 
   const imgFile = formData.get('img') as File;
@@ -631,7 +631,7 @@ export async function updateCertificationAction(id: number, formData: FormData) 
   revalidatePath('/certifications');
 }
 
-export async function deleteCertificationAction(id: number) {
+export async function deleteCertificationAction(id: number): Promise<any> {
   const db = await getDb();
   await db.delete(certifications).where(eq(certifications.id, id));
   revalidatePath('/resume');
