@@ -11,5 +11,11 @@ import * as schema from './schema';
  */
 export async function getDb() {
   const { env } = await getCloudflareContext({ async: true });
-  return drizzle((env as any).DB, { schema });
+  const dbBinding = (env as any).DB;
+  
+  if (!dbBinding) {
+    console.warn("D1 Database binding 'DB' not found. Ensure it is connected in the Cloudflare Pages dashboard.");
+  }
+  
+  return drizzle(dbBinding, { schema });
 }
