@@ -1,4 +1,4 @@
-CREATE TABLE `educations` (
+CREATE TABLE IF NOT EXISTS `educations` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`institution` text NOT NULL,
 	`degree` text NOT NULL,

@@ -1,4 +1,4 @@
-CREATE TABLE `certifications` (
+CREATE TABLE IF NOT EXISTS `certifications` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text NOT NULL,
 	`issuer` text NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE `certifications` (
 	`type` text DEFAULT 'major' NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE `posts` (
+CREATE TABLE IF NOT EXISTS `posts` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`title` text NOT NULL,
 	`slug` text NOT NULL,
@@ -18,8 +18,8 @@ CREATE TABLE `posts` (
 	`date` text NOT NULL
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `posts_slug_unique` ON `posts` (`slug`);--> statement-breakpoint
-CREATE TABLE `profile` (
+CREATE UNIQUE INDEX IF NOT EXISTS `posts_slug_unique` ON `posts` (`slug`);--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS `profile` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text NOT NULL,
 	`surname` text NOT NULL,

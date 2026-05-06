@@ -1,4 +1,4 @@
-CREATE TABLE `about` (
+CREATE TABLE IF NOT EXISTS `about` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`content` text NOT NULL
 );
