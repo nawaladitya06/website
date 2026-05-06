@@ -113,19 +113,24 @@ export async function getPostBySlugAction(slug: string) {
 // PUBLIC MUTATIONS
 // ========================
 export async function submitContactForm(formData: FormData) {
-  const db = await getDb();
-  
-  const name = formData.get('name') as string;
-  const email = formData.get('email') as string;
-  const message = formData.get('message') as string;
+  try {
+    const db = await getDb();
+    
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const message = formData.get('message') as string;
 
-  if (!name || !email || !message) {
-    return { success: false, error: 'All fields are required' };
+    if (!name || !email || !message) {
+      return { success: false, error: 'All fields are required' };
+    }
+
+    await db.insert(messages).values({ name, email, message });
+    revalidatePath('/admin/messages');
+    return { success: true };
+  } catch (error) {
+    console.error("Error submitting contact form:", error);
+    return { success: false, error: "Database error. Please try again later." };
   }
-
-  await db.insert(messages).values({ name, email, message });
-  revalidatePath('/admin/messages');
-  return { success: true };
 }
 
 // ========================
@@ -148,38 +153,50 @@ export async function getMessageByIdAction(id: number) {
 }
 
 export async function deleteMessageAction(id: number) {
-  const db = await getDb();
-  await db.delete(messages).where(eq(messages.id, id));
-  revalidatePath('/admin/messages');
+  try {
+    const db = await getDb();
+    await db.delete(messages).where(eq(messages.id, id));
+    revalidatePath('/admin/messages');
+    return { success: true };
+  } catch (error) {
+    console.error(`Error deleting message ${id}:`, error);
+    return { success: false, error: "Failed to delete message." };
+  }
 }
 
 // ========================
 // ADMIN CRUD (PROJECTS)
 // ========================
 export async function createProjectAction(formData: FormData) {
-  const db = await getDb();
-  
-  const techString = formData.get('tech') as string;
-  const techArray = techString.split(',').map(s => s.trim()).filter(Boolean);
+  try {
+    const db = await getDb();
+    
+    const techString = formData.get('tech') as string;
+    const techArray = techString.split(',').map(s => s.trim()).filter(Boolean);
 
-  await db.insert(projects).values({
-    title: formData.get('title') as string,
-    desc: formData.get('desc') as string,
-    tech: techArray,
-    year: formData.get('year') as string,
-    size: formData.get('size') as string || 'col-span-1',
-    img: formData.get('img') as string,
-    github: formData.get('github') as string || null,
-    demo: formData.get('demo') as string || null,
-    type: formData.get('type') as string || 'major',
-    challenge: formData.get('challenge') as string || null,
-    solution: formData.get('solution') as string || null,
-    impact: formData.get('impact') as string || null,
-  });
-  
-  revalidatePath('/');
-  revalidatePath('/projects');
-  revalidatePath('/admin/projects');
+    await db.insert(projects).values({
+      title: formData.get('title') as string,
+      desc: formData.get('desc') as string,
+      tech: techArray,
+      year: formData.get('year') as string,
+      size: formData.get('size') as string || 'col-span-1',
+      img: formData.get('img') as string,
+      github: formData.get('github') as string || null,
+      demo: formData.get('demo') as string || null,
+      type: formData.get('type') as string || 'major',
+      challenge: formData.get('challenge') as string || null,
+      solution: formData.get('solution') as string || null,
+      impact: formData.get('impact') as string || null,
+    });
+    
+    revalidatePath('/');
+    revalidatePath('/projects');
+    revalidatePath('/admin/projects');
+    return { success: true };
+  } catch (error) {
+    console.error("Error creating project:", error);
+    return { success: false, error: "Failed to create project." };
+  }
 }
 
 export async function updateProjectAction(id: number, formData: FormData) {
@@ -276,28 +293,34 @@ export async function getExperienceByIdAction(id: number) {
 }
 
 export async function createExperienceAction(formData: FormData) {
-  const db = await getDb();
+  try {
+    const db = await getDb();
 
-  const imgFile = formData.get('img') as File;
-  let imgStr = formData.get('img_url') as string || null;
+    const imgFile = formData.get('img') as File;
+    let imgStr = formData.get('img_url') as string || null;
 
-  if (imgFile && imgFile.size > 0 && typeof imgFile !== 'string') {
-    const buffer = await imgFile.arrayBuffer();
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
-    imgStr = `data:${imgFile.type};base64,${base64}`;
+    if (imgFile && imgFile.size > 0 && typeof imgFile !== 'string') {
+      const buffer = await imgFile.arrayBuffer();
+      const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+      imgStr = `data:${imgFile.type};base64,${base64}`;
+    }
+    
+    await db.insert(experiences).values({
+      role: formData.get('role') as string,
+      org: formData.get('org') as string,
+      year: formData.get('year') as string,
+      desc: formData.get('desc') as string,
+      category: formData.get('category') as string,
+      img: imgStr || "",
+      doc: formData.get('doc') as string || null,
+    });
+    revalidatePath('/resume');
+    revalidatePath('/admin/experience');
+    return { success: true };
+  } catch (error) {
+    console.error("Error creating experience:", error);
+    return { success: false, error: "Failed to save experience. Database might be out of sync." };
   }
-  
-  await db.insert(experiences).values({
-    role: formData.get('role') as string,
-    org: formData.get('org') as string,
-    year: formData.get('year') as string,
-    desc: formData.get('desc') as string,
-    category: formData.get('category') as string,
-    img: imgStr || "",
-    doc: formData.get('doc') as string || null,
-  });
-  revalidatePath('/resume');
-  revalidatePath('/admin/experience');
 }
 
 export async function updateExperienceAction(id: number, formData: FormData) {
@@ -394,17 +417,23 @@ export async function getSkillByIdAction(id: number) {
 }
 
 export async function createSkillAction(formData: FormData) {
-  const db = await getDb();
-  
-  await db.insert(skills).values({
-    category: formData.get('category') as string,
-    name: formData.get('name') as string,
-    url: formData.get('url') as string,
-    level: parseInt(formData.get('level') as string || '80'),
-  });
-  revalidatePath('/');
-  revalidatePath('/skills');
-  revalidatePath('/admin/skills');
+  try {
+    const db = await getDb();
+    
+    await db.insert(skills).values({
+      category: formData.get('category') as string,
+      name: formData.get('name') as string,
+      url: formData.get('url') as string,
+      level: parseInt(formData.get('level') as string || '80'),
+    });
+    revalidatePath('/');
+    revalidatePath('/skills');
+    revalidatePath('/admin/skills');
+    return { success: true };
+  } catch (error) {
+    console.error("Error creating skill:", error);
+    return { success: false, error: "Failed to add skill. Please run database migrations." };
+  }
 }
 
 export async function updateSkillAction(id: number, formData: FormData) {
