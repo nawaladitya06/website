@@ -28,7 +28,7 @@ export default async function AdminProjectsPage() {
                     <Plus size={20} className="text-purple-400" />
                     Fast Build
                 </h2>
-                <form action={createProjectAction} className="space-y-3">
+                <form action={createProjectAction as any} className="space-y-3">
                     <input required name="title" placeholder="Project Title" className="w-full px-5 py-1 bg-black/40 border border-white/10 rounded-4xl text-white focus:outline-none focus:border-purple-500 focus:bg-white/5 transition-all text-sm" />
                     <input required name="year" placeholder="Year" className="w-full px-5 py-1 bg-black/40 border border-white/10 rounded-4xl text-white focus:outline-none focus:border-purple-500 focus:bg-white/5 transition-all text-sm" />
                     <input required name="tech" placeholder="Tech Stack (React, TS...)" className="w-full px-5 py-1 bg-black/40 border border-white/10 rounded-4xl text-white focus:outline-none focus:border-purple-500 focus:bg-white/5 transition-all text-sm" />
@@ -82,7 +82,7 @@ export default async function AdminProjectsPage() {
                                 >
                                     <Edit3 size={18} />
                                 </Link>
-                                <form action={deleteProjectAction.bind(null, item.id!)}>
+                                <form action={deleteProjectAction.bind(null, item.id!) as any}>
                                     <button 
                                         type="submit" 
                                         className="p-3 bg-red-500/5 text-red-400/50 rounded-xl hover:bg-red-500 hover:text-white transition active:scale-90"
