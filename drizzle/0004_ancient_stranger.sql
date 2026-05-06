@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS `profile` (
 	`resume` text NOT NULL
 );
 --> statement-breakpoint
-ALTER TABLE `experiences` ADD `category` text NOT NULL;--> statement-breakpoint
-ALTER TABLE `experiences` ADD `img` text NOT NULL;--> statement-breakpoint
+ALTER TABLE `experiences` ADD `category` text DEFAULT 'professional' NOT NULL;--> statement-breakpoint
+ALTER TABLE `experiences` ADD `img` text DEFAULT '' NOT NULL;--> statement-breakpoint
 ALTER TABLE `experiences` ADD `doc` text;--> statement-breakpoint
 ALTER TABLE `projects` ADD `type` text DEFAULT 'major' NOT NULL;--> statement-breakpoint
 ALTER TABLE `projects` ADD `challenge` text;--> statement-breakpoint
