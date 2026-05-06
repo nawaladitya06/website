@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `educations` (
 	`link` text NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE `experiences` (
+CREATE TABLE IF NOT EXISTS `experiences` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`role` text NOT NULL,
 	`org` text NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE `experiences` (
 	`desc` text NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE `messages` (
+CREATE TABLE IF NOT EXISTS `messages` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text NOT NULL,
 	`email` text NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE `messages` (
 	`created_at` integer NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE `projects` (
+CREATE TABLE IF NOT EXISTS `projects` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`title` text NOT NULL,
 	`desc` text NOT NULL,
