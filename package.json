@@ -4,39 +4,34 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "build:cloudflare": "opennextjs-cloudflare build",
+    "pages:build": "npx @cloudflare/next-on-pages",
     "dev": "next dev",
     "start": "next start",
     "lint": "eslint",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && wrangler deploy",
-    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
-    "cf:build": "opennextjs-cloudflare build && mv .open-next/worker.js .open-next/_worker.js && cp -r .open-next/assets/* .open-next/",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "wrangler d1 migrations apply portfolio-db --remote"
   },
   "dependencies": {
-    "@opennextjs/cloudflare": "^1.19.5",
-    "dotenv": "^17.4.2",
-    "drizzle-orm": "^0.45.2",
-    "framer-motion": "^12.29.2",
-    "lucide-react": "^0.563.0",
-    "next": "16.1.6",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "tailwindcss": "^4",
-    "@tailwindcss/postcss": "^4"
+    "@cloudflare/next-on-pages": "^1",
+    "drizzle-orm": "^0.36.4",
+    "framer-motion": "^11.0.0",
+    "lucide-react": "^0.400.0",
+    "next": "15.3.2",
+    "react": "^19",
+    "react-dom": "^19"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260418.1",
-    "@tailwindcss/postcss": "^4",
+    "@cloudflare/workers-types": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "drizzle-kit": "^0.31.10",
-    "esbuild": "^0.28.0",
+    "autoprefixer": "^10",
+    "drizzle-kit": "^0.28.0",
     "eslint": "^9",
-    "eslint-config-next": "16.1.6",
+    "eslint-config-next": "15.3.2",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.17",
     "typescript": "^5",
-    "wrangler": "^4.87.0"
+    "wrangler": "^3"
   }
 }

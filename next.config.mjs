@@ -6,8 +6,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Ensure we don't have 'output: export' which breaks dynamic SSR on Cloudflare
-  // output: 'standalone', // OpenNext handles this, usually not needed explicitly
   reactStrictMode: true,
   poweredByHeader: false,
 };
