@@ -10,7 +10,7 @@ interface Message {
   name: string;
   email: string;
   message: string;
-  createdAt: string;
+  createdAt: string | Date;
 }
 
 export default function MessagesListClient({ items }: { items: Message[] }) {
