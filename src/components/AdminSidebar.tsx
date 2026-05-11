@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, FolderKanban, Briefcase, GraduationCap, Cpu, UserCircle, LogOut, NotebookText, MessageSquare, Award } from 'lucide-react';
+import { LayoutDashboard, FolderKanban, Briefcase, GraduationCap, Cpu, UserCircle, LogOut, NotebookText, MessageSquare, Award, FileText } from 'lucide-react';
 
 export default function AdminSidebar() {
   const pathname = usePathname();
