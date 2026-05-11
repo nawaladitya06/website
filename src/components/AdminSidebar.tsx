@@ -9,7 +9,7 @@ export default function AdminSidebar() {
   const navLinks = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { name: 'Messages', href: '/admin/messages', icon: MessageSquare },
-    { name: 'Profile', href: '/admin/profile', icon: UserCircle },
+    { name: 'Resume', href: '/admin/resume', icon: FileText },
     { name: 'Blog', href: '/admin/blog', icon: NotebookText },
     { name: 'Projects', href: '/admin/projects', icon: FolderKanban },
     { name: 'Experience', href: '/admin/experience', icon: Briefcase },

@@ -616,6 +616,27 @@ export async function updateProfileAction(formData: FormData): Promise<void> {
   }
 }
 
+export async function updateResumeAction(formData: FormData): Promise<void> {
+  try {
+    const db = await getDb();
+    const existing = await getProfileAction();
+    const resumeUrl = formData.get('resume') as string;
+    
+    if (existing) {
+      await db.update(profile).set({ resume: resumeUrl }).where(eq(profile.id, existing.id));
+    } else {
+      await db.insert(profile).values({ resume: resumeUrl } as any);
+    }
+    
+    revalidatePath('/');
+    revalidatePath('/resume');
+    revalidatePath('/admin/resume');
+  } catch (error) {
+    console.error("Error updating resume:", error);
+    throw new Error("Failed to update resume");
+  }
+}
+
 // ========================
 // ADMIN CRUD (CERTIFICATIONS)
 // ========================
