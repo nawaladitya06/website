@@ -1,8 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { Trash2, Edit3, Type } from "lucide-react";
+import { Trash2, Edit3, Type, Quote } from "lucide-react";
 import { deleteAboutAction, updateAboutAction } from "@/app/actions";
 import EditModal from "./EditModal";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface About {
   id: number;
@@ -24,51 +25,60 @@ export default function AboutListClient({ items }: { items: About[] }) {
 
   return (
     <>
-      <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl overflow-hidden shadow-2xl">
-        <div className="space-y-4">
-            {items.map((item, index) => (
-                <div 
-                    key={item.id} 
-                    className="group relative p-6 bg-white/[0.02] border border-white/5 rounded-3xl hover:bg-white/[0.05] hover:border-purple-500/30 transition-all"
-                >
-                    <div className="flex justify-between gap-6">
-                        <div className="flex gap-4">
-                             <div className="w-8 h-8 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center font-black text-xs shrink-0">
-                                {index + 1}
-                             </div>
-                             <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-wrap italic">
-                                "{item.content}"
-                             </p>
-                        </div>
-                        
-                        <div className="flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button 
-                                onClick={() => setEditingItem(item)}
-                                className="p-2 bg-white text-black rounded-lg hover:bg-purple-100 transition active:scale-90"
-                                title="Edit Paragraph"
-                            >
-                                <Edit3 size={14} />
-                            </button>
-                            <form action={deleteAboutAction.bind(null, item.id!)}>
-                                <button 
-                                    type="submit" 
-                                    className="p-2 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500 hover:text-white transition active:scale-90"
-                                    title="Delete Paragraph"
-                                >
-                                    <Trash2 size={14} />
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+      <div className="space-y-4">
+        <AnimatePresence>
+          {items.map((item, index) => (
+            <motion.div 
+              key={item.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ delay: index * 0.1 }}
+              className="group relative p-6 bg-white/5 border border-white/10 rounded-[2rem] hover:bg-white/[0.08] hover:border-purple-500/30 transition-all duration-300 shadow-xl backdrop-blur-xl"
+            >
+              <div className="flex justify-between gap-6">
+                <div className="flex gap-5">
+                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500/20 to-fuchsia-600/10 text-purple-400 flex items-center justify-center font-black text-sm shrink-0 border border-purple-500/20 shadow-inner">
+                    {index + 1}
+                  </div>
+                  <div className="pt-2">
+                    <Quote size={14} className="text-purple-500/30 mb-2" />
+                    <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-wrap">
+                      {item.content}
+                    </p>
+                  </div>
                 </div>
-            ))}
+                
+                {/* Actions Hover */}
+                <div className="flex flex-col gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 p-1.5 rounded-xl backdrop-blur-md border border-white/10 shrink-0">
+                  <button 
+                    onClick={() => setEditingItem(item)}
+                    className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                    title="Edit Paragraph"
+                  >
+                    <Edit3 size={14} />
+                  </button>
+                  <form action={deleteAboutAction.bind(null, item.id!)}>
+                    <button 
+                      type="submit" 
+                      className="p-2 text-red-400/80 hover:text-white hover:bg-red-500 rounded-lg transition-colors"
+                      title="Delete Paragraph"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
 
-            {items.length === 0 && (
-                <div className="py-20 text-center text-gray-700 italic border-2 border-dashed border-white/5 rounded-3xl">
-                    No bio paragraphs found
-                </div>
-            )}
-        </div>
+        {items.length === 0 && (
+          <div className="py-16 flex flex-col items-center justify-center bg-white/5 rounded-[2.5rem] border border-dashed border-white/20 shadow-inner">
+            <Type size={32} className="text-gray-600 mb-3" />
+            <p className="text-gray-400 font-medium text-sm">No bio paragraphs written</p>
+          </div>
+        )}
       </div>
 
       <EditModal 
