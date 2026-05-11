@@ -42,7 +42,7 @@ export default function EducationListClient({ items }: { items: Education[] }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ delay: index * 0.05 }}
-              className="group relative bg-white/5 border border-white/10 rounded-[2rem] p-6 backdrop-blur-xl hover:bg-white/[0.08] hover:border-emerald-500/30 transition-all duration-300 flex flex-col h-full shadow-2xl overflow-hidden"
+              className="group relative bg-white/5 border border-white/10 rounded-[2rem] p-6 backdrop-blur-xl hover:bg-white/[0.08] hover:border-purple-500/30 transition-all duration-300 flex flex-col h-full shadow-2xl overflow-hidden"
             >
               {/* Actions (Hover) */}
               <div className="absolute top-4 right-4 flex gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 p-1.5 rounded-xl backdrop-blur-md border border-white/10 z-10">
@@ -66,18 +66,18 @@ export default function EducationListClient({ items }: { items: Education[] }) {
 
               {/* Icon & Title */}
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 flex flex-shrink-0 items-center justify-center text-emerald-400 shadow-inner group-hover:scale-105 transition-transform duration-300">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-500/10 border border-purple-500/20 flex flex-shrink-0 items-center justify-center text-purple-400 shadow-inner group-hover:scale-105 transition-transform duration-300">
                   <GraduationCap size={24} />
                 </div>
                 <div className="pr-16">
-                  <h3 className="text-lg font-bold text-white leading-tight group-hover:text-emerald-300 transition-colors">
+                  <h3 className="text-lg font-bold text-white leading-tight group-hover:text-purple-300 transition-colors">
                     {item.institution}
                   </h3>
                   <a 
                     href={item.link} 
                     target="_blank" 
                     rel="noreferrer" 
-                    className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-emerald-400 transition-colors mt-1"
+                    className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-purple-400 transition-colors mt-1"
                   >
                     Visit Website <ExternalLink size={10} />
                   </a>
@@ -98,7 +98,7 @@ export default function EducationListClient({ items }: { items: Education[] }) {
                   {item.year}
                 </div>
                 
-                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-xs font-mono font-bold text-emerald-400">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-lg text-xs font-mono font-bold text-purple-400">
                   <Award size={12} />
                   {item.score}
                 </div>

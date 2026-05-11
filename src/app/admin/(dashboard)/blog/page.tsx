@@ -11,7 +11,7 @@ export default async function AdminBlogPage() {
       {/* Header */}
       <div className="mb-12">
         <h1 className="text-4xl font-black text-white tracking-tight flex items-center gap-3">
-          <FileText className="text-fuchsia-500" size={32} />
+          <FileText className="text-purple-500" size={32} />
           Blog Manager
         </h1>
         <p className="text-gray-500 font-mono text-[10px] uppercase tracking-[0.3em] mt-2">

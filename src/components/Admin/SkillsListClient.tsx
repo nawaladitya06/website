@@ -50,7 +50,7 @@ export default function SkillsListClient({ items }: { items: Skill[] }) {
               className="bg-white/5 border border-white/10 rounded-[2rem] p-6 backdrop-blur-xl shadow-2xl overflow-hidden"
             >
               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/5">
-                <div className="p-2 bg-cyan-500/10 rounded-xl text-cyan-400">
+                <div className="p-2 bg-purple-500/10 rounded-xl text-purple-400">
                   <Cpu size={18} />
                 </div>
                 <h3 className="text-lg font-bold text-white uppercase tracking-wider">{category}</h3>
@@ -64,11 +64,11 @@ export default function SkillsListClient({ items }: { items: Skill[] }) {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: (catIndex * 0.1) + (index * 0.05) }}
-                    className="group relative flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-white/[0.08] hover:border-cyan-500/30 transition-all duration-300"
+                    className="group relative flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-white/[0.08] hover:border-purple-500/30 transition-all duration-300"
                   >
                     <div className="flex-1 min-w-0 pr-4">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-sm font-bold text-white truncate group-hover:text-cyan-300 transition-colors">{skill.name}</span>
+                        <span className="text-sm font-bold text-white truncate group-hover:text-purple-300 transition-colors">{skill.name}</span>
                         <a href={skill.url} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors flex-shrink-0">
                           <Globe size={12} />
                         </a>
@@ -76,11 +76,11 @@ export default function SkillsListClient({ items }: { items: Skill[] }) {
                       <div className="flex items-center gap-3">
                         <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
                           <div 
-                            className="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"
+                            className="h-full bg-gradient-to-r from-purple-400 to-purple-500 rounded-full"
                             style={{ width: `${skill.level}%` }}
                           />
                         </div>
-                        <span className="text-[10px] font-mono text-cyan-400 font-bold w-6">{skill.level}%</span>
+                        <span className="text-[10px] font-mono text-purple-400 font-bold w-6">{skill.level}%</span>
                       </div>
                     </div>
 

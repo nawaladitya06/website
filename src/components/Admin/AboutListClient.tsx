@@ -38,7 +38,7 @@ export default function AboutListClient({ items }: { items: About[] }) {
             >
               <div className="flex justify-between gap-6">
                 <div className="flex gap-5">
-                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500/20 to-fuchsia-600/10 text-purple-400 flex items-center justify-center font-black text-sm shrink-0 border border-purple-500/20 shadow-inner">
+                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500/20 to-purple-600/10 text-purple-400 flex items-center justify-center font-black text-sm shrink-0 border border-purple-500/20 shadow-inner">
                     {index + 1}
                   </div>
                   <div className="pt-2">

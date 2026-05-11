@@ -26,16 +26,16 @@ export default function BlogListClient({ items }: { items: Post[] }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ delay: index * 0.05 }}
-            className="group relative bg-white/5 border border-white/10 rounded-[2rem] p-6 backdrop-blur-xl hover:bg-white/[0.08] hover:border-fuchsia-500/30 transition-all duration-300 flex flex-col h-full shadow-2xl overflow-hidden"
+            className="group relative bg-white/5 border border-white/10 rounded-[2rem] p-6 backdrop-blur-xl hover:bg-white/[0.08] hover:border-purple-500/30 transition-all duration-300 flex flex-col h-full shadow-2xl overflow-hidden"
           >
             {/* Image Header */}
             <div className="relative h-48 -mx-6 -mt-6 mb-6 overflow-hidden bg-black/40 border-b border-white/5">
               {item.cover ? (
                 <img src={item.cover} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onError={(e) => (e.currentTarget.style.display = 'none')} />
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-fuchsia-500/10 to-pink-500/5">
-                  <FileText size={48} className="text-fuchsia-500/40 mb-2" />
-                  <span className="text-[10px] uppercase tracking-widest text-fuchsia-500/50 font-black">Article Header</span>
+                <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-purple-500/10 to-purple-500/5">
+                  <FileText size={48} className="text-purple-500/40 mb-2" />
+                  <span className="text-[10px] uppercase tracking-widest text-purple-500/50 font-black">Article Header</span>
                 </div>
               )}
               {/* Overlay Gradient */}
@@ -63,14 +63,14 @@ export default function BlogListClient({ items }: { items: Post[] }) {
 
               {/* Date Badge */}
               <div className="absolute bottom-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/40 backdrop-blur-md border border-white/10 text-[10px] font-mono text-gray-300">
-                <Calendar size={12} className="text-fuchsia-400" />
+                <Calendar size={12} className="text-purple-400" />
                 {item.date}
               </div>
             </div>
 
             {/* Content */}
             <div className="flex-grow flex flex-col">
-              <h3 className="text-xl font-black text-white leading-tight group-hover:text-fuchsia-300 transition-colors mb-3">
+              <h3 className="text-xl font-black text-white leading-tight group-hover:text-purple-300 transition-colors mb-3">
                 {item.title}
               </h3>
               
@@ -80,14 +80,14 @@ export default function BlogListClient({ items }: { items: Post[] }) {
 
               {/* Footer Links */}
               <div className="pt-4 mt-auto border-t border-white/5 flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-[10px] font-mono text-fuchsia-500/70 truncate max-w-[200px]">
+                <div className="flex items-center gap-1.5 text-[10px] font-mono text-purple-500/70 truncate max-w-[200px]">
                   <Globe size={12} />
                   <span className="truncate">/{item.slug}</span>
                 </div>
 
                 <Link 
                   href={`/admin/blog/${item.id}`}
-                  className="flex items-center gap-1.5 text-xs font-bold text-fuchsia-400 hover:text-fuchsia-300 transition-colors uppercase tracking-widest"
+                  className="flex items-center gap-1.5 text-xs font-bold text-purple-400 hover:text-purple-300 transition-colors uppercase tracking-widest"
                 >
                   Edit Post <BookOpen size={14} />
                 </Link>

@@ -49,7 +49,7 @@ export default function ProjectListClient({ items }: { items: Project[] }) {
                 {/* Badges on Image */}
                 <div className="absolute bottom-4 left-4 flex gap-2">
                   <span className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider backdrop-blur-md border ${
-                    item.type === 'major' ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' : 'bg-blue-500/20 text-blue-300 border-blue-500/30'
+                    item.type === 'major' ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' : 'bg-purple-500/20 text-purple-300 border-purple-500/30'
                   }`}>
                     {item.type === 'major' ? 'Major Case' : 'Minor Build'}
                   </span>

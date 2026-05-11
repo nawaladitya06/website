@@ -43,16 +43,16 @@ export default function CertificationsListClient({ items }: { items: Certificati
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ delay: index * 0.05 }}
-              className="group relative bg-white/5 border border-white/10 rounded-[2rem] p-6 backdrop-blur-xl hover:bg-white/[0.08] hover:border-amber-500/30 transition-all duration-300 flex flex-col h-full shadow-2xl overflow-hidden"
+              className="group relative bg-white/5 border border-white/10 rounded-[2rem] p-6 backdrop-blur-xl hover:bg-white/[0.08] hover:border-purple-500/30 transition-all duration-300 flex flex-col h-full shadow-2xl overflow-hidden"
             >
               {/* Image Header */}
               <div className="relative h-40 -mx-6 -mt-6 mb-6 overflow-hidden bg-black/40 border-b border-white/5 flex items-center justify-center p-4">
                 {item.img ? (
                   <img src={item.img} alt={item.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" onError={(e) => (e.currentTarget.style.display = 'none')} />
                 ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-amber-500/10 to-orange-500/5">
-                    <ShieldCheck size={48} className="text-amber-500/40 mb-2" />
-                    <span className="text-[10px] uppercase tracking-widest text-amber-500/50 font-black">Verified Credential</span>
+                  <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-purple-500/10 to-purple-500/5">
+                    <ShieldCheck size={48} className="text-purple-500/40 mb-2" />
+                    <span className="text-[10px] uppercase tracking-widest text-purple-500/50 font-black">Verified Credential</span>
                   </div>
                 )}
                 {/* Subtle Overlay */}
@@ -61,7 +61,7 @@ export default function CertificationsListClient({ items }: { items: Certificati
                 {/* Badge */}
                 <div className="absolute bottom-4 left-4 flex gap-2">
                   <span className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider backdrop-blur-md border ${
-                    item.type === 'major' || !item.type ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-zinc-500/20 text-zinc-300 border-zinc-500/30'
+                    item.type === 'major' || !item.type ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' : 'bg-zinc-500/20 text-zinc-300 border-zinc-500/30'
                   }`}>
                     {item.type === 'minor' ? 'Supplementary' : 'Flagship'}
                   </span>
@@ -90,16 +90,16 @@ export default function CertificationsListClient({ items }: { items: Certificati
 
               {/* Title & Issuer */}
               <div className="flex-grow mb-6">
-                <h3 className="text-lg font-black text-white leading-tight group-hover:text-amber-300 transition-colors mb-3">
+                <h3 className="text-lg font-black text-white leading-tight group-hover:text-purple-300 transition-colors mb-3">
                   {item.name}
                 </h3>
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-gray-400">
-                    <Building size={14} className="text-amber-500/70" />
+                    <Building size={14} className="text-purple-500/70" />
                     <span className="text-sm font-medium">{item.issuer}</span>
                   </div>
                   <div className="flex items-center gap-2 text-gray-400">
-                    <Calendar size={14} className="text-amber-500/70" />
+                    <Calendar size={14} className="text-purple-500/70" />
                     <span className="text-[10px] font-mono uppercase tracking-widest">{item.date}</span>
                   </div>
                 </div>
@@ -112,7 +112,7 @@ export default function CertificationsListClient({ items }: { items: Certificati
                     href={item.url} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full py-2.5 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 text-amber-400 rounded-xl transition-colors text-xs font-bold uppercase tracking-widest"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 text-purple-400 rounded-xl transition-colors text-xs font-bold uppercase tracking-widest"
                   >
                     View Credential <ExternalLink size={14} />
                   </a>

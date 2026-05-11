@@ -24,21 +24,21 @@ export default function MessagesListClient({ items }: { items: Message[] }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ delay: index * 0.05 }}
-            className="group relative p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-2xl transition-all duration-300 hover:bg-white/[0.08] hover:border-blue-500/30 overflow-hidden shadow-2xl"
+            className="group relative p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-2xl transition-all duration-300 hover:bg-white/[0.08] hover:border-purple-500/30 overflow-hidden shadow-2xl"
           >
             {/* Background Glow Effect */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 -rotate-45 translate-x-32 -translate-y-32 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none blur-3xl" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 -rotate-45 translate-x-32 -translate-y-32 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none blur-3xl" />
 
             <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-8 relative z-10">
               <div className="space-y-4 flex-1">
                 <div className="flex flex-wrap items-center gap-6 text-sm">
                   <div className="flex items-center gap-2 text-white font-bold bg-white/5 px-3 py-1.5 rounded-xl border border-white/5">
-                    <User size={14} className="text-blue-400" />
+                    <User size={14} className="text-purple-400" />
                     {message.name}
                   </div>
                   <div className="flex items-center gap-2 text-gray-300 bg-white/5 px-3 py-1.5 rounded-xl border border-white/5">
-                    <Mail size={14} className="text-blue-400/70" />
-                    <a href={`mailto:${message.email}`} className="hover:text-blue-300 transition-colors">{message.email}</a>
+                    <Mail size={14} className="text-purple-400/70" />
+                    <a href={`mailto:${message.email}`} className="hover:text-purple-300 transition-colors">{message.email}</a>
                   </div>
                   <div className="flex items-center gap-2 text-gray-500 font-mono text-xs uppercase tracking-widest px-3 py-1.5 rounded-xl border border-transparent">
                     <Calendar size={12} className="text-gray-600" />
@@ -57,7 +57,7 @@ export default function MessagesListClient({ items }: { items: Message[] }) {
               <div className="flex items-center gap-4 xl:flex-col shrink-0">
                 <Link 
                   href={`/admin/messages/${message.id}`}
-                  className="flex items-center justify-center gap-2 w-full xl:w-48 px-6 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-extrabold rounded-2xl hover:from-blue-500 hover:to-cyan-500 transition-all shadow-lg shadow-blue-500/20 active:scale-[0.98]"
+                  className="flex items-center justify-center gap-2 w-full xl:w-48 px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-600 text-white font-extrabold rounded-2xl hover:from-purple-500 hover:to-purple-500 transition-all shadow-lg shadow-purple-500/20 active:scale-[0.98]"
                 >
                   <Reply size={18} />
                   <span>Read & Reply</span>

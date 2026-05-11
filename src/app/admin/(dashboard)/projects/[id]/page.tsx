@@ -96,7 +96,7 @@ export default async function EditProjectPage({ params }: { params: Promise<{ id
 
         {/* Case Study Section */}
         <section className="bg-white/[0.02] border border-white/10 rounded-[2.5rem] p-10 backdrop-blur-3xl shadow-2xl">
-            <h2 className="text-xl font-bold text-white mb-8 flex items-center gap-2 border-l-4 border-cyan-500 pl-4">
+            <h2 className="text-xl font-bold text-white mb-8 flex items-center gap-2 border-l-4 border-purple-500 pl-4">
                 Case Study Content
             </h2>
             <div className="space-y-8">

@@ -95,7 +95,7 @@ export default function ExperienceListClient({ items }: { items: Experience[] })
               {/* Badges & Timeline */}
               <div className="flex flex-wrap items-center gap-3 mb-6">
                 <span className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${
-                  item.category === 'professional' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20' : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
+                  item.category === 'professional' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
                 }`}>
                   {item.category}
                 </span>

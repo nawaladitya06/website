@@ -44,7 +44,7 @@ export default function ExperienceManagementClient({ items, createAction }: Expe
           <div>
             <h2 className="text-xl font-bold text-white tracking-wide">Experience Management</h2>
             <div className="flex items-center gap-2 mt-1">
-              <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <div className="h-1.5 w-1.5 rounded-full bg-purple-400 animate-pulse" />
               <p className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-mono">{items.length} Records Active</p>
             </div>
           </div>
@@ -141,7 +141,7 @@ export default function ExperienceManagementClient({ items, createAction }: Expe
               <button 
                 type="submit" 
                 disabled={isSubmitting}
-                className="w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-extrabold rounded-2xl hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/25 active:scale-[0.98] mt-6 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 bg-gradient-to-r from-purple-600 to-purple-600 text-white font-extrabold rounded-2xl hover:from-purple-500 hover:to-purple-500 transition-all shadow-lg shadow-purple-500/25 active:scale-[0.98] mt-6 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
