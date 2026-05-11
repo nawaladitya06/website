@@ -1,8 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { Award, Trash2, Edit3, ExternalLink, ShieldCheck } from "lucide-react";
+import { Trash2, Edit3, Award, ExternalLink, Calendar, Building, ShieldCheck } from "lucide-react";
 import { updateCertificationAction, deleteCertificationAction } from "@/app/actions";
 import EditModal from "./EditModal";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Certification {
   id: number;
@@ -11,6 +12,7 @@ interface Certification {
   date: string;
   url: string | null;
   img: string | null;
+  type?: string;
 }
 
 export default function CertificationsListClient({ items }: { items: Certification[] }) {
@@ -31,65 +33,102 @@ export default function CertificationsListClient({ items }: { items: Certificati
   ];
 
   return (
-    <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl shadow-2xl">
-      <div className="space-y-6">
-        {items.map((item) => (
-          <div 
-            key={item.id} 
-            className="group flex flex-col md:flex-row md:items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-3xl hover:bg-white/[0.05] hover:border-purple-500/30 transition-all gap-6"
-          >
-            <div className="flex items-center gap-5">
-              {item.img ? (
-                <div className="w-14 h-14 rounded-2xl overflow-hidden bg-black/20 border border-white/10 shrink-0">
-                  <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <AnimatePresence>
+          {items.map((item, index) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ delay: index * 0.05 }}
+              className="group relative bg-white/5 border border-white/10 rounded-[2rem] p-6 backdrop-blur-xl hover:bg-white/[0.08] hover:border-amber-500/30 transition-all duration-300 flex flex-col h-full shadow-2xl overflow-hidden"
+            >
+              {/* Image Header */}
+              <div className="relative h-40 -mx-6 -mt-6 mb-6 overflow-hidden bg-black/40 border-b border-white/5 flex items-center justify-center p-4">
+                {item.img ? (
+                  <img src={item.img} alt={item.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" onError={(e) => (e.currentTarget.style.display = 'none')} />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-amber-500/10 to-orange-500/5">
+                    <ShieldCheck size={48} className="text-amber-500/40 mb-2" />
+                    <span className="text-[10px] uppercase tracking-widest text-amber-500/50 font-black">Verified Credential</span>
+                  </div>
+                )}
+                {/* Subtle Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+
+                {/* Badge */}
+                <div className="absolute bottom-4 left-4 flex gap-2">
+                  <span className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider backdrop-blur-md border ${
+                    item.type === 'major' || !item.type ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-zinc-500/20 text-zinc-300 border-zinc-500/30'
+                  }`}>
+                    {item.type === 'minor' ? 'Supplementary' : 'Flagship'}
+                  </span>
                 </div>
-              ) : (
-                <div className="w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-400 shrink-0 border border-purple-500/10">
-                  <ShieldCheck size={28} />
-                </div>
-              )}
-              <div className="space-y-1">
-                <h3 className="text-white font-black text-lg tracking-tight leading-tight">{item.name}</h3>
-                <div className="flex items-center gap-3 text-[10px] uppercase font-bold tracking-widest text-gray-500">
-                  <span className="text-purple-400">{item.issuer}</span>
-                  <span className="w-1 h-1 rounded-full bg-white/10" />
-                  <span>{item.date}</span>
+
+                {/* Actions Hover */}
+                <div className="absolute top-4 right-4 flex gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 p-1.5 rounded-xl backdrop-blur-md border border-white/10 z-10">
+                  <button 
+                    onClick={() => setEditingItem(item)}
+                    className="p-2 text-gray-300 hover:text-white hover:bg-white/20 rounded-lg transition-colors"
+                    title="Edit Certification"
+                  >
+                    <Edit3 size={16} />
+                  </button>
+                  <form action={deleteCertificationAction.bind(null, item.id)}>
+                    <button 
+                      type="submit" 
+                      className="p-2 text-red-400/80 hover:text-white hover:bg-red-500 rounded-lg transition-colors"
+                      title="Delete Certification"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </form>
                 </div>
               </div>
-            </div>
 
-            <div className="flex items-center gap-3 ml-auto md:ml-0">
+              {/* Title & Issuer */}
+              <div className="flex-grow mb-6">
+                <h3 className="text-lg font-black text-white leading-tight group-hover:text-amber-300 transition-colors mb-3">
+                  {item.name}
+                </h3>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <Building size={14} className="text-amber-500/70" />
+                    <span className="text-sm font-medium">{item.issuer}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <Calendar size={14} className="text-amber-500/70" />
+                    <span className="text-[10px] font-mono uppercase tracking-widest">{item.date}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer Actions */}
               {item.url && (
-                <a 
-                  href={item.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-3 bg-white/5 text-gray-400 rounded-xl hover:bg-white/10 hover:text-white transition active:scale-95"
-                >
-                  <ExternalLink size={18} />
-                </a>
+                <div className="pt-4 mt-auto border-t border-white/5">
+                  <a 
+                    href={item.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 text-amber-400 rounded-xl transition-colors text-xs font-bold uppercase tracking-widest"
+                  >
+                    View Credential <ExternalLink size={14} />
+                  </a>
+                </div>
               )}
-              <button 
-                onClick={() => setEditingItem(item)}
-                className="p-3 bg-white text-black rounded-xl hover:bg-purple-100 transition active:scale-90"
-              >
-                <Edit3 size={18} />
-              </button>
-              <form action={deleteCertificationAction.bind(null, item.id)}>
-                <button 
-                  type="submit" 
-                  className="p-3 bg-red-500/5 text-red-400/50 rounded-xl hover:bg-red-500 hover:text-white transition active:scale-90"
-                >
-                  <Trash2 size={18} />
-                </button>
-              </form>
-            </div>
-          </div>
-        ))}
+            </motion.div>
+          ))}
+        </AnimatePresence>
 
         {items.length === 0 && (
-          <div className="py-20 text-center text-gray-700 font-medium italic">
-            No certifications added yet.
+          <div className="col-span-full py-24 flex flex-col items-center justify-center bg-white/5 rounded-[2.5rem] border border-dashed border-white/20 shadow-inner">
+            <div className="p-4 bg-white/5 rounded-full mb-4 border border-white/5">
+              <Award size={40} className="text-gray-500" />
+            </div>
+            <p className="text-gray-300 font-bold text-lg">No Certifications Added</p>
+            <p className="text-sm text-gray-500 mt-2 font-mono">Click "Add New" to showcase your credentials.</p>
           </div>
         )}
       </div>
@@ -102,6 +141,6 @@ export default function CertificationsListClient({ items }: { items: Certificati
         onSave={(fd) => updateCertificationAction(editingItem!.id, fd)}
         fields={fields}
       />
-    </div>
+    </>
   );
 }
